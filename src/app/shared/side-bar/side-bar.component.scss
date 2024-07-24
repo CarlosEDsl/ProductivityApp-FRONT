@@ -1,0 +1,25 @@
+mat-sidenav-container{
+  height: 100%;
+}
+
+.icon-text-align {
+  display: flex;
+  align-items: center;
+}
+
+.nav-button {
+  width: 100%;
+  justify-content: left;
+  border-radius: 0;
+}
+
+.list-icon, .header-button {
+  margin-right: 8px;
+}
+
+mat-toolbar .mat-mdc-button>.mat-icon{
+  margin: 0px;
+}
+mat-toolbar {
+  justify-content: baseline;
+}
