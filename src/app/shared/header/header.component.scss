@@ -1,9 +1,45 @@
 mat-toolbar {
   display: flex;
-  justify-content: center;
+  align-items: center; /* Centraliza verticalmente os itens */
+  justify-content: center; /* Centraliza os itens principais */
+  position: relative; /* Permite posicionamento absoluto dos elementos filhos se necessário */
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 .login-options {
   position: absolute;
   right: 0;
 }
+
+.menu-container {
+  position: absolute;
+  left: 0;
+  width: 24%;
+  height: 100%;
+}
+.menu-container button {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  border-width: 0;
+  text-align: left;
+  background-color: transparent;
+}
+
+.menu-container button:hover {
+  cursor:pointer;
+}
+
+.menu-button-content {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.menu-text {
+  font-size: 20px;
+  margin-left: 3px;
+}
+
