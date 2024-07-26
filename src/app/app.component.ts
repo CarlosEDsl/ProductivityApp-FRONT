@@ -14,12 +14,33 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'ProductivityAPP-View';
   isSideBarCompacted = false;
+  timeoutId:any;
+  sideBarOFF = {
+    'display': 'none'
+  };
 
   toggleSideBar() {
     this.isSideBarCompacted = !this.isSideBarCompacted;
+    this.onSideBarClose(this.isSideBarCompacted);
   }
-
   onSideBarClose(isOpen: boolean) {
     this.isSideBarCompacted = isOpen;
+
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
+    if (!isOpen) {
+      this.timeoutId = setTimeout(() => {
+        this.sideBarOFF = {
+          'display': 'none'
+        };
+      }, 300);
+    } else {
+      this.sideBarOFF = {
+        'display': 'block'
+      };
+    }
   }
 }
+

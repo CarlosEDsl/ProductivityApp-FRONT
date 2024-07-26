@@ -2,7 +2,7 @@
   <mat-sidenav mode="over" align="start" [opened]="isSideBarCompacted" (closed)="isSideBarChange.emit()">
     <mat-list dense>
 
-      <button mat-button class="nav-button" routerLink="/my-tasks">
+      <button [routerLink]="'/my-tasks'" mat-button class="nav-button">
         <mat-list-item>
           <div class="icon-text-align">
             <mat-icon class="list-icon">task</mat-icon>

@@ -1,9 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-task-page',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './task-page.component.html',
   styleUrl: './task-page.component.scss'
 })
