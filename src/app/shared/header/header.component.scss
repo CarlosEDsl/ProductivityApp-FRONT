@@ -11,6 +11,8 @@ mat-toolbar {
 .login-options {
   position: absolute;
   right: 0;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
 }
 
 .menu-container {
@@ -42,4 +44,9 @@ mat-toolbar {
   font-size: 20px;
   margin-left: 3px;
 }
+
+@media only screen and (max-width: 600px) {
+
+}
+
 

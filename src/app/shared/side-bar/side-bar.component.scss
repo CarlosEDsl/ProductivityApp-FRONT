@@ -1,5 +1,6 @@
 mat-sidenav-container{
   height: 100%;
+  background-color: transparent;
 }
 
 .icon-text-align {
@@ -33,4 +34,9 @@ h2 {padding: 1rem;}
 
 mat-sidenav {
   width: 24%;
+}
+
+.outSideNav {
+  width: 100%;
+  height: 100%;
 }
