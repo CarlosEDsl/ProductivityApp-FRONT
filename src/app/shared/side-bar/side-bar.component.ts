@@ -3,7 +3,7 @@ import {MatListModule} from '@angular/material/list'
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
@@ -17,5 +17,11 @@ import { Component, Input } from '@angular/core';
 export class SideBarComponent {
 
   @Input() isSideBarCompacted: boolean = true;
+  @Output() isSideBarChange = new EventEmitter();
+
+  onOpenedChange(){
+    this.isSideBarChange.emit(false);
+  }
 
 }
+

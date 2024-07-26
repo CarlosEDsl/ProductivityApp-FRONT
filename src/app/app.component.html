@@ -1,6 +1,6 @@
 <app-header (toggleNav)="toggleSideBar()"></app-header>
 <div class="container">
-  <app-side-bar [isSideBarCompacted] = "isSideBarCompacted"></app-side-bar>
+  <app-side-bar [isSideBarCompacted] = "isSideBarCompacted" (isSideBarChange) = "onSideBarClose(false)"></app-side-bar>
   <div class="content-container">
     <router-outlet></router-outlet>
   </div>

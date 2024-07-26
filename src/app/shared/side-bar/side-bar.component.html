@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="over" align="start" [opened]="isSideBarCompacted">
+  <mat-sidenav mode="over" align="start" [opened]="isSideBarCompacted" (closed)="isSideBarChange.emit()">
     <mat-list dense>
 
       <button mat-button class="nav-button" routerLink="/my-tasks">

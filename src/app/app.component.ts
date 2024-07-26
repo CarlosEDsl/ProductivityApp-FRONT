@@ -18,4 +18,8 @@ export class AppComponent {
   toggleSideBar() {
     this.isSideBarCompacted = !this.isSideBarCompacted;
   }
+
+  onSideBarClose(isOpen: boolean) {
+    this.isSideBarCompacted = isOpen;
+  }
 }
