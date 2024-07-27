@@ -1,0 +1,49 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(235, 236, 237);
+  padding: 40px;
+  margin-top: 80px;
+  border-radius: 10px;
+  box-shadow: 2px;
+  width:380px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+mat-form-field {
+  width: 80%;
+}
+
+.login-header {
+  display: flex;
+  width: 100%;
+}
+.login-header > h3 {
+  text-decoration: underline;
+  color: rgb(145, 151, 156);
+  margin-left: 30px ;
+}
+
+.login-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.login-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.login-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-footer > a {
+  font-size: 12px;
+}
+
