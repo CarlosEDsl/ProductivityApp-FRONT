@@ -1,36 +1,36 @@
 <section class="login-section" #loginForm>
-  <form action="">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="login-header">
       <h3>Register</h3>
     </div>
     <section class="form-content">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="name">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Cell</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="cell">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="email">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Confirm Email</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="confirmEmail">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="password">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Confirm Password</mat-label>
-        <input matInput>
+        <input matInput type="text" formControlName="confirmPassword">
       </mat-form-field>
     </section>
     <div class="login-footer">
-      <button mat-flat-button>Continue</button>
+      <button mat-flat-button type="submit">Continue</button>
       <a href="">forgot password?</a>
     </div>
   </form>
