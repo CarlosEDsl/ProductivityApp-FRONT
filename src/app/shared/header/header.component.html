@@ -9,10 +9,11 @@
 
     </button>
   </div>
-
-  <h1 class="title">Productivity APP</h1>
+  <button [routerLink]="'/'" id="title-click">
+    <h1 class="title">Productivity APP</h1>
+  </button>
   <div class="login-options">
     <button mat-button [routerLink]="'/login'">Login</button>
-    <button mat-button>Create Account</button>
+    <button mat-button [routerLink]="'/create-account'">Create Account</button>
   </div>
 </mat-toolbar>

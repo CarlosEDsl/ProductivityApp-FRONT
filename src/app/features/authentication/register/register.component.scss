@@ -7,12 +7,13 @@ form {
   margin-top: 80px;
   border-radius: 10px;
   box-shadow: 2px;
-  width:380px;
+  width:580px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 mat-form-field {
-  width: 80%;
+  min-width: 250px;
+  margin: 20px;
 }
 
 .login-header {
@@ -41,13 +42,20 @@ mat-form-field {
 .login-footer {
   display: flex;
   flex-direction: column;
+  align-self: flex-end;
+  margin-right: 20px;
 }
 
 .login-footer > a {
   font-size: 12px;
 }
 
-.login-footer > button{
-  background-color: rgb(110, 119, 158);
+.form-content {
+  display: flexbox;
 }
 
+.login-footer > button {
+  background-color: rgb(110, 119, 158);
+  min-width: 100px;
+  border-radius: 15px;
+}

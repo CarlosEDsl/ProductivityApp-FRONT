@@ -45,6 +45,15 @@ mat-toolbar {
   margin-left: 3px;
 }
 
+#title-click {
+  border: none;
+  background-color: transparent;
+  padding: 20px;
+}
+#title-click:hover {
+  cursor:pointer;
+}
+
 @media only screen and (max-width: 600px) {
 
 }
