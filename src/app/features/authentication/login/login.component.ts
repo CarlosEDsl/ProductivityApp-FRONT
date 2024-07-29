@@ -1,19 +1,27 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit } from '@angular/core';
+import { UserLogin } from './../../../shared/interfaces/user-login';
+import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit, Input, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import { UsersServiceService } from '../../../shared/services/users-service.service';
+import { TokenServiceService } from '../../../shared/services/token-service.service';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule],
+  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent{
   @ViewChild('loginForm') loginForm!: ElementRef;
+  form!: FormGroup;
+  userService = inject(UsersServiceService);
+  tokenService = inject(TokenServiceService);
+  @Input() user: UserLogin | null = null;
 
   constructor(private renderer: Renderer2) {}
 
@@ -25,4 +33,28 @@ export class LoginComponent{
     }
   }
 
+  ngOnInit(){
+    this.form = new FormGroup(
+      {
+        email: new FormControl(this.user?.email ?? '', {
+          nonNullable: true,
+          validators: Validators.email
+        }),
+        password: new FormControl(this.user?.password ?? '', {
+          nonNullable: true
+        })
+      }
+    )
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const formValues = this.form.value;
+      const user: UserLogin = {
+        email: formValues.email,
+        password: formValues.password
+      };
+      this.userService.login(user);
+    }
+  }
 }
