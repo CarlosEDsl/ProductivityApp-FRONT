@@ -1,5 +1,5 @@
 import { UserLogin } from './../../../shared/interfaces/user-login';
-import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit, Input, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -57,4 +57,12 @@ export class LoginComponent{
       this.userService.login(user);
     }
   }
+
+  //Hide password
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
 }

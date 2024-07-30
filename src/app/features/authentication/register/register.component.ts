@@ -1,15 +1,16 @@
 import { User } from './../../../shared/interfaces/user';
-import { Component, ElementRef, inject, Renderer2, ViewChild, Input } from '@angular/core';
+import { Component, ElementRef, inject, Renderer2, ViewChild, Input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UsersServiceService } from '../../../shared/services/users-service.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatIconModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -88,4 +89,12 @@ export class RegisterComponent {
       }
     }
   }
+
+  //Hide password
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
 }

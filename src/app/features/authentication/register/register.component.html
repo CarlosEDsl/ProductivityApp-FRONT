@@ -22,7 +22,15 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput type="text" formControlName="password">
+        <input matInput type="text" formControlName="password" [type]="hide() ? 'password' : 'text'">
+        <button
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Confirm Password</mat-label>
@@ -31,7 +39,6 @@
     </section>
     <div class="login-footer">
       <button mat-flat-button type="submit">Continue</button>
-      <a href="">forgot password?</a>
     </div>
   </form>
 </section>
