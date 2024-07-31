@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { HoursTime } from '../interfaces/hours-time';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TokenServiceService } from './token-service.service';
 
 @Injectable({
@@ -56,22 +56,11 @@ export class UsersServiceService {
 
   //Fazer tratamento pra login errado
 
-  login(credentials: UserLogin) {
-    this.httpClient.post<any>(`${this.ApiURL}/login`, credentials, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }),
-      observe: 'response'
-    }).subscribe((response: HttpResponse<any>) => {
-      const authToken = response.headers.get('Authorization');
-      this.authToken.next(authToken);
-      this.tokenService.setToken(this.authToken.getValue());
-
-    }, error => {
-      console.error('Login failed:', error);
-      this.authToken.next(null);
-      this.tokenService.setToken(null);
-    });
+  login(credentials: UserLogin): Observable<string> {
+    return this.httpClient.post<string>(`${this.ApiURL}/login`, credentials).pipe(
+      tap((value) => {
+        this.tokenService.setToken(value);
+      })
+    );
   }
 }

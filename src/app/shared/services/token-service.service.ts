@@ -23,4 +23,11 @@ export class TokenServiceService {
   clearToken() {
     localStorage.removeItem(this.tokenKey);
   }
+
+  isUserLogged(){
+    if(this.getToken() != null) {
+      return true;
+    }
+    return false;
+  }
 }

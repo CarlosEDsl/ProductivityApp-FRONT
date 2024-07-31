@@ -1,18 +1,21 @@
 import { UserLogin } from './../../../shared/interfaces/user-login';
-import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, OnInit, Input, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatInputModule} from '@angular/material/input';
 import { UsersServiceService } from '../../../shared/services/users-service.service';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatSnackBarModule],
+  providers:[UsersServiceService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -21,6 +24,7 @@ export class LoginComponent{
   form!: FormGroup;
   userService = inject(UsersServiceService);
   tokenService = inject(TokenServiceService);
+  router = inject(Router);
   @Input() user: UserLogin | null = null;
 
   constructor(private renderer: Renderer2) {}
@@ -38,10 +42,11 @@ export class LoginComponent{
       {
         email: new FormControl(this.user?.email ?? '', {
           nonNullable: true,
-          validators: Validators.email
+          validators: [Validators.email, Validators.required]
         }),
         password: new FormControl(this.user?.password ?? '', {
-          nonNullable: true
+          nonNullable: true,
+          validators: Validators.required
         })
       }
     )
@@ -54,7 +59,13 @@ export class LoginComponent{
         email: formValues.email,
         password: formValues.password
       };
-      this.userService.login(user);
+      this.userService.login(user).subscribe({
+        next: () => {
+          console.log("Successfull download");
+          this.router.navigateByUrl("/").catch(() => console.error("Erro na rota"));
+        },
+        error: () => console.log("error")
+      })
     }
   }
 
