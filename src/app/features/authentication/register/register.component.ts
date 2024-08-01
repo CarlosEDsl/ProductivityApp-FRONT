@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { UsersServiceService } from '../../../shared/services/users-service.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class RegisterComponent {
   @ViewChild('loginForm') loginForm!: ElementRef;
   userService = inject(UsersServiceService);
+  snackbarService = inject(SnackbarService);
+  router = inject(Router);
   @Input() user: User | null = null;
   form!: FormGroup;
 
@@ -78,14 +82,15 @@ export class RegisterComponent {
           cell: userFormRes.cell
         }
 
-        this.userService.post(user).subscribe(
-          response => {
-            console.log('User registered successfully', response);
+        this.userService.post(user).subscribe({
+          next: () => {
+            this.snackbarService.show("User created", 'success');
+            this.router.navigateByUrl("/").catch(() => console.error("Route error"));
           },
-          error => {
-            console.error('Error registering user', error);
+          error: () => {
+            this.snackbarService.show("Error", 'error');
           }
-        );
+        });
       }
     }
   }

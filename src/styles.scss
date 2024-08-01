@@ -2,3 +2,20 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: whitesmoke; }
+
+/* styles.css */
+
+.mat-mdc-snackbar-surface {
+  margin-top: 70px !important;
+  color: beige;
+}
+.error {
+    background-color: #c62828 !important;
+  }
+.success {
+    background-color: #2e7d32 !important;
+  }
+
+.warning {
+    background-color: #ff8f00 !important;
+  }

@@ -1,20 +1,20 @@
+import { SnackBarType } from './../../../shared/snack-bar/snack-bar.service';
 import { UserLogin } from './../../../shared/interfaces/user-login';
-import { AfterViewInit, Component, ElementRef, ViewChild, Renderer2, Input, inject, signal } from '@angular/core';
+import { Component, ElementRef, ViewChild, Renderer2, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { UsersServiceService } from '../../../shared/services/users-service.service';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
 import { Router } from '@angular/router';
-
+import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatSnackBarModule],
+  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   providers:[UsersServiceService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -25,6 +25,7 @@ export class LoginComponent{
   userService = inject(UsersServiceService);
   tokenService = inject(TokenServiceService);
   router = inject(Router);
+  snackBar = inject(SnackbarService);
   @Input() user: UserLogin | null = null;
 
   constructor(private renderer: Renderer2) {}
@@ -61,10 +62,12 @@ export class LoginComponent{
       };
       this.userService.login(user).subscribe({
         next: () => {
-          console.log("Successfull download");
+          this.snackBar.show("Logado com sucesso", 'success');
           this.router.navigateByUrl("/").catch(() => console.error("Erro na rota"));
         },
-        error: () => console.log("error")
+        error: () => {
+          this.snackBar.show("Dados não encontrados.", 'error');
+        }
       })
     }
   }
