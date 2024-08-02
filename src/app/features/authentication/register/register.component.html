@@ -10,7 +10,10 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Cell</mat-label>
-        <input matInput type="text" formControlName="cell">
+        <input matInput type="tel" formControlName="cell"
+        mask="(00) 00000-0000"
+        prefix="+55 "
+        type="tel">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>

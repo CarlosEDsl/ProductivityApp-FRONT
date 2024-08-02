@@ -8,11 +8,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatIconModule } from '@angular/material/icon';
 import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
 import { Router } from '@angular/router';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatIconModule, NgxMaskDirective],
+  providers: [provideNgxMask({ /* opções de cfg */ })],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -33,8 +35,7 @@ export class RegisterComponent {
         validators: Validators.required
       }),
       cell: new FormControl<string>(this.user?.cell ?? '', {
-        nonNullable: false,
-        validators: Validators.required
+        nonNullable: false
       }),
       email: new FormControl<string>(this.user?.email ?? '', {
         nonNullable: true,
@@ -68,10 +69,10 @@ export class RegisterComponent {
       let userFormRes = this.form.value;
 
       if(userFormRes.email != userFormRes.confirmEmail){
-        console.error('Error registering user email dont match');
+        this.snackbarService.show("Error registering user email dont match", 'error');
       }
       else if(userFormRes.password != userFormRes.confirmPassword){
-        console.error('Error registering user password dont match');
+        this.snackbarService.show("Error registering user password dont match", 'error');
       }
       else {
         const user:User = {
@@ -87,8 +88,11 @@ export class RegisterComponent {
             this.snackbarService.show("User created", 'success');
             this.router.navigateByUrl("/").catch(() => console.error("Route error"));
           },
-          error: () => {
-            this.snackbarService.show("Error", 'error');
+          error: (error) => {
+            if(error.status == 409)
+              this.snackbarService.show("Email already in use", 'error');
+            else
+              this.snackbarService.show("Server error", 'error');
           }
         });
       }
