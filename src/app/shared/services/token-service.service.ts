@@ -6,22 +6,29 @@ import { Injectable } from '@angular/core';
 export class TokenServiceService {
 
   private readonly tokenKey = 'Authentication';
+  private readonly idKey = 'UserId';
 
   constructor() {}
 
-  setToken(token:string | null) {
-    if(token)
+  setToken(token:string | null, userId:string | null) {
+    if(token && userId){
       localStorage.setItem(this.tokenKey, token);
+      localStorage.setItem(this.idKey, userId);
+    }
     else
       this.clearToken();
   }
 
   getToken() {
-    localStorage.getItem(this.tokenKey);
+    return localStorage.getItem(this.tokenKey);
   }
 
   clearToken() {
     localStorage.removeItem(this.tokenKey);
+  }
+
+  getId() {
+    return localStorage.getItem(this.idKey);
   }
 
   isUserLogged(){

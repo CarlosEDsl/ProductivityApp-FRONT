@@ -3,8 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { HoursTime } from '../interfaces/hours-time';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenServiceService } from './token-service.service';
+import { LoginResponse } from '../interfaces/login-response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,6 @@ export class UsersServiceService {
   private ApiURL = 'http://localhost:8080';
 
   private httpClient = inject(HttpClient);
-  private authToken = new BehaviorSubject<string | null>(null);
 
   get(id: string) {
     return this.httpClient.get<User>(`${this.ApiURL}/user/${id}`);
@@ -54,12 +54,21 @@ export class UsersServiceService {
     });
   }
 
-  //Fazer tratamento pra login errado
+  login(credentials: UserLogin): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.ApiURL}/login`, credentials, { observe: 'response' }).pipe(
+      tap((response: HttpResponse<void>) => {
+        const authorization = response.headers.get('Authorization');
+        const userId = response.headers.get('UserId');
 
-  login(credentials: UserLogin): Observable<string> {
-    return this.httpClient.post<string>(`${this.ApiURL}/login`, credentials).pipe(
-      tap((value) => {
-        this.tokenService.setToken(value);
+        if (authorization) {
+          this.tokenService.setToken(authorization, userId);
+        } else {
+          console.error('Authorization header is missing.');
+        }
+      }),
+      catchError(error => {
+        console.error('Error during login:', error);
+        return throwError(error);
       })
     );
   }
