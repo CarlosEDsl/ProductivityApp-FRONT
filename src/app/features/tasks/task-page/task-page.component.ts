@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { Task } from '../../../shared/interfaces/task';
 import { TaskService } from '../../../shared/services/task.service';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ export class TaskPageComponent {
 
   ngOnInit() {}
   trackByTaskTerm(index: number, task: Task): string {
-    return task.term.toString(); // Substitua 'term' pela propriedade única do objeto 'task' que você deseja usar para tracking
+    return task.term.toString();
   }
 
 }
