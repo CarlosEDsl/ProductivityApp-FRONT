@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Task } from '../interfaces/task';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,12 @@ export class TaskService {
   }
 
   getAllFromUser(userId:string, token:string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.APIUrl}/` + "task/user/" + userId);
+
+    const headers = new HttpHeaders({
+      'Authorization': `${token}`
+    });
+
+    return this.http.get<Task[]>(`${this.APIUrl}/task/user/${userId}`, { headers });
   }
 
 }

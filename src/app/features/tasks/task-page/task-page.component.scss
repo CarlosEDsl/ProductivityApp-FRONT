@@ -1,8 +1,3 @@
-mat-card {
-  width: 50%;
-  margin: 20px;
-}
-
 .tasks-container {
   padding: 20px;
   display: flex;
@@ -10,29 +5,3 @@ mat-card {
   flex-direction: column;
 }
 
-mat-card-footer {
-  display: flex;
-  justify-content: center;
-  margin: 5px 30px;
-}
-
-mat-card-content {
-  margin-top: 20px;
-}
-
-mat-card-footer > p {
-  font-size: 11px;
-  padding-right: 4%;
-}
-
-.modifier-buttons {
-  margin-left: 0px;
-}
-
-.modifier-buttons > button {
-  margin-right: 5px;
-}
-
-mat-card-actions {
-  margin-top: 10px;
-}

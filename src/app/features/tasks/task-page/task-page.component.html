@@ -1,22 +1,24 @@
-<div class="tasks-container">
-  <mat-card>
-      <mat-card-header>
-          <mat-card-title>Task</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos laborum quisquam assumenda similique, adipisci totam sint accusamus hic maxime cupiditate expedita rem debitis illo deleniti ea minima enim modi. Architecto.
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <div class="modifier-buttons">
-          <button mat-stroked-button color="warn">Delete</button>
-          <button mat-stroked-button>Edit</button>
-        </div>
-        <button mat-flat-button>Finish</button>
-      </mat-card-actions>
-      <mat-card-footer>
-        <p>term in: 10 hours</p>
-        <p>created: 26/02/24 11:23</p>
-      </mat-card-footer>
-  </mat-card>
+<section *ngIf="authService.getToken() !== null; else loggedOut" class="task-content">
 
-</div>
+  <div class="tasks-container">
+    <ng-container *ngFor="let task of tasks(); trackBy: trackByTaskTerm">
+      <ng-container *ngIf="task; else loading">
+        <app-card
+          class="task-container"
+          [task]="task"
+        >
+        </app-card>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="no-content-container">
+  </div>
+
+</section>
+
+<ng-template #loggedOut>
+</ng-template>
+
+<ng-template #loading>
+</ng-template>

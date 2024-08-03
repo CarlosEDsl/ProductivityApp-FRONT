@@ -1,0 +1,31 @@
+mat-card {
+  min-width: 650px;
+  margin: 20px;
+}
+
+mat-card-footer {
+  display: flex;
+  justify-content: center;
+  margin: 5px 30px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+
+mat-card-footer > p {
+  font-size: 11px;
+  padding-right: 4%;
+}
+
+mat-card-actions {
+  margin-top: 10px;
+}
+
+.modifier-buttons {
+  margin-left: 0px;
+}
+
+.modifier-buttons > button {
+  margin-right: 5px;
+}
