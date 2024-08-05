@@ -18,8 +18,13 @@ export class UsersServiceService {
 
   private httpClient = inject(HttpClient);
 
-  get(id: string) {
-    return this.httpClient.get<User>(`${this.ApiURL}/user/${id}`);
+  get(id: string, auth:string) {
+    return this.httpClient.get<User>(`${this.ApiURL}/user/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      })
+    });
   }
 
   post(user: User) {

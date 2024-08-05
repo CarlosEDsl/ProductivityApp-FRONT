@@ -1,17 +1,28 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { TokenServiceService } from '../services/token-service.service';
+import { CommonModule } from '@angular/common';
+import { UsersServiceService } from '../services/users-service.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  authService = inject(TokenServiceService);
+  userService = inject(UsersServiceService);
+  username = 'error';
+
+  userId = this.authService.getId();
+  user = this.userService.get(this.userId ?? '', this.authService.getToken() ?? '').subscribe((user) => {
+    this.username = user.name;
+  });
 
   @Output() toggleNav = new EventEmitter<void>();
 

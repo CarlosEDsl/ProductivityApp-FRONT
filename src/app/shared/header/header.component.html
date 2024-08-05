@@ -1,5 +1,4 @@
 <mat-toolbar>
-
   <div class="menu-container">
     <button (click)="toggleNav.emit()">
       <div class="menu-button-content">
@@ -12,8 +11,13 @@
   <button [routerLink]="'/'" id="title-click">
     <h1 class="title">Productivity APP</h1>
   </button>
-  <div class="login-options">
-    <button mat-button [routerLink]="'/login'">Login</button>
-    <button mat-button [routerLink]="'/create-account'">Create Account</button>
+  <div *ngIf="authService.getToken() !== null; else logged" class="login-options">
+    <span>Hello, {{username}}</span>
   </div>
+  <ng-template #logged>
+    <div class="login-options">
+      <button mat-button [routerLink]="'/login'">Login</button>
+      <button mat-button [routerLink]="'/create-account'">Create Account</button>
+    </div>
+  </ng-template>
 </mat-toolbar>
