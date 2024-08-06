@@ -13,6 +13,9 @@ mat-toolbar {
   right: 0;
   margin-right: 0.5%;
   margin-left: 0.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-container {
@@ -52,6 +55,12 @@ mat-toolbar {
 }
 #title-click:hover {
   cursor:pointer;
+}
+
+.loggedMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {

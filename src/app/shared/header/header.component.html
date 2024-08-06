@@ -1,23 +1,34 @@
 <mat-toolbar>
+
   <div class="menu-container">
     <button (click)="toggleNav.emit()">
       <div class="menu-button-content">
         <mat-icon>menu</mat-icon>
         <span class="menu-text">Menu</span>
       </div>
-
     </button>
   </div>
+
   <button [routerLink]="'/'" id="title-click">
     <h1 class="title">Productivity APP</h1>
   </button>
-  <div *ngIf="authService.getToken() !== null; else logged" class="login-options">
+
+  <div *ngIf="authService.getToken() !== null; else notLogged" class="login-options">
     <span>Hello, {{username}}</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="loggedMenu">
+      <button mat-menu-item #configs>Settings <mat-icon class="mat-18">settings</mat-icon> </button>
+      <button mat-menu-item #leave (click)="onLoggout()">Log out <mat-icon class="mat-18">logout</mat-icon> </button>
+    </mat-menu>
   </div>
-  <ng-template #logged>
+
+  <ng-template #notLogged>
     <div class="login-options">
       <button mat-button [routerLink]="'/login'">Login</button>
       <button mat-button [routerLink]="'/create-account'">Create Account</button>
     </div>
   </ng-template>
+
 </mat-toolbar>

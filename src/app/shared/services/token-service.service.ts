@@ -25,6 +25,7 @@ export class TokenServiceService {
 
   clearToken() {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.idKey);
   }
 
   getId() {
