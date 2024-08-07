@@ -4,3 +4,11 @@
   align-items : center;
   flex-direction: column;
 }
+
+.paginator {
+  justify-content: center;
+  display: flex;
+}
+.mat-mdc-paginator-page-size {
+  display: none;
+}
