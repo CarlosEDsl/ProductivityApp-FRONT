@@ -19,7 +19,7 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu" class="loggedMenu">
-      <button mat-menu-item #configs>Settings <mat-icon class="mat-18">settings</mat-icon> </button>
+      <button mat-menu-item #configs (click)="onSettings()">Settings <mat-icon class="mat-18">settings</mat-icon> </button>
       <button mat-menu-item #leave (click)="onLoggout()">Log out <mat-icon class="mat-18">logout</mat-icon> </button>
     </mat-menu>
   </div>

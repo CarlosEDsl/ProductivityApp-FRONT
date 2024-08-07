@@ -7,6 +7,8 @@ import { TokenServiceService } from '../services/token-service.service';
 import { CommonModule } from '@angular/common';
 import { UsersServiceService } from '../services/users-service.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { SettingsComponent } from '../settings/settings.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
@@ -37,4 +39,12 @@ export class HeaderComponent {
     this.router.navigateByUrl("/");
   }
 
+  constructor(public settingsDialog: MatDialog) {}
+
+  onSettings(): void {
+    this.settingsDialog.open(SettingsComponent, {
+      width: '90%',
+      height: '80%'
+    });
+  }
 }
