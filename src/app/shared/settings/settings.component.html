@@ -1,0 +1,41 @@
+<h1 matDialogTitle>Configs</h1>
+
+<mat-dialog-content>
+  <section class="config-field">
+    <span>Name: {{user.name}}</span>
+    <button mat-button class="edit-button">
+      <div class="edit-button-content">
+        <mat-icon>edit</mat-icon>
+      </div>
+    </button>
+  </section>
+  <section class="config-field">
+    <span>Password: ********</span>
+    <button mat-button class="edit-button">
+      <div class="edit-button-content">
+        <mat-icon>edit</mat-icon>
+      </div>
+    </button>
+  </section>
+  <section class="config-field">
+    <span>Email: {{user.email}}</span>
+    <button mat-button class="edit-button">
+      <div class="edit-button-content">
+        <mat-icon>edit</mat-icon>
+      </div>
+    </button>
+  </section>
+  <section class="config-field">
+    <span>Cell: {{user.cell}}</span>
+    <button mat-button class="edit-button">
+      <div class="edit-button-content">
+        <mat-icon>edit</mat-icon>
+      </div>
+    </button>
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button matDialogClose>Close</button>
+  <button mat-button>Apply</button>
+</mat-dialog-actions>
