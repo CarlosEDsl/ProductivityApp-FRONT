@@ -10,11 +10,12 @@ import { CardComponent } from '../components/card/card.component';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CreateComponent } from '../components/create/create.component';
 
 @Component({
   selector: 'app-task-page',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, CardComponent, MatPaginatorModule, MatFormFieldModule, MatInputModule],
+  imports: [MatCardModule, MatButtonModule, CommonModule, CardComponent, MatPaginatorModule, MatFormFieldModule, MatInputModule, CreateComponent],
   templateUrl: './task-page.component.html',
   styleUrl: './task-page.component.scss'
 })

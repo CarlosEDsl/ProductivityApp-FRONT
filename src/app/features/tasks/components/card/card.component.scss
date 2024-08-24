@@ -29,3 +29,12 @@ mat-card-actions {
 .modifier-buttons > button {
   margin-right: 5px;
 }
+
+@keyframes join {
+  from {
+    right: -100%;
+  }
+  to {
+    left: 100%
+  }
+}

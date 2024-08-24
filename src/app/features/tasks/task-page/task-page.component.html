@@ -1,10 +1,13 @@
 <section *ngIf="authService.getToken() !== null; else loggedOut" class="task-content">
 
   <div class="tasks-container">
-    <ng-container *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
+    <div class="creation-container">
+      <button mat-button>Create Task</button>
+    </div>
+    <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
       <ng-container *ngIf="task; else loading">
         <app-card
-          class="task-container"
+          class="task"
           [task]="task"
         >
         </app-card>
@@ -29,6 +32,7 @@
 </section>
 
 <ng-template #loggedOut>
+  <span>Please loggin to see your tasks</span>
 </ng-template>
 
 <ng-template #loading>
