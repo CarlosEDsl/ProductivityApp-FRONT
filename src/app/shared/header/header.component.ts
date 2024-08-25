@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,6 +24,18 @@ export class HeaderComponent implements OnDestroy {
   router = inject(Router);
   username: string = 'error';
   userId: string | null = this.authService.getId();
+
+  public screenWidth: number = 0;
+
+  ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+  }
+
   private userSubscription: Subscription;
 
   @Output() toggleNav = new EventEmitter<void>();

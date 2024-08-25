@@ -12,12 +12,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-task-page',
   standalone: true,
   imports: [MatCardModule, MatButtonModule, CommonModule, CardComponent, MatPaginatorModule,
-     MatFormFieldModule, MatInputModule, CreateComponent, MobileCardComponent],
+     MatFormFieldModule, MatInputModule, CreateComponent, MobileCardComponent, MatIconModule],
   templateUrl: './task-page.component.html',
   styleUrl: './task-page.component.scss'
 })
@@ -64,6 +65,4 @@ export class TaskPageComponent {
     const startIndex = this.pageIndex * this.pageSize;
     return this.tasks.slice(startIndex, startIndex + this.pageSize);
   }
-
-
 }

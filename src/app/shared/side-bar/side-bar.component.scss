@@ -36,5 +36,10 @@ mat-sidenav {
   width: 24%;
 }
 
+@media(max-width: 740px) {
+  mat-sidenav {
+    width: 50%;
+  }
+}
 
 

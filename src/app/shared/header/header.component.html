@@ -10,11 +10,13 @@
   </div>
 
   <button [routerLink]="'/'" id="title-click">
-    <h1 class="title">Productivity APP</h1>
+    <h1 class="title" *ngIf="screenWidth >= 740">Productivity APP</h1>
+    <h1 class="title" *ngIf="screenWidth <= 740">P-APP</h1>
   </button>
 
   <div *ngIf="authService.getToken() !== null; else notLogged" class="login-options">
-    <span>Hello, {{username}}</span>
+    <span *ngIf="screenWidth >= 740">Hello, {{username}}</span>
+    <span *ngIf="screenWidth <= 740">Hi, {{username}}</span>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
       <mat-icon>more_vert</mat-icon>
     </button>

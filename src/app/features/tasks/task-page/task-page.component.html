@@ -1,11 +1,10 @@
 <section *ngIf="authService.getToken() !== null; else loggedOut" class="task-content">
 
-  <div class="tasks-container">
+  <div class="tasks-container" *ngIf="screenWidth >= 740">
     <div class="creation-container">
-      <button mat-button>Create Task</button>
+      <button mat-flat-button class="create-button">Create Task</button>
     </div>
-    <div *ngIf="screenWidth >= 740" class="normalView">
-      <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
+      <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm" >
         <ng-container *ngIf="task; else loading">
           <app-card
             class="task"
@@ -14,8 +13,12 @@
           </app-card>
         </ng-container>
       </ng-container>
-    </div>
-    <div *ngIf="screenWidth <= 740" class="mobileView">
+  </div>
+
+  <div class="tasks-mobile-container" *ngIf="screenWidth <= 740">
+    <div class="creation-container">
+      <button mat-flat-button class="create-button"><mat-icon class="mat-18">add</mat-icon></button>
+
       <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
         <ng-container *ngIf="task; else loading">
           <app-mobile-card
