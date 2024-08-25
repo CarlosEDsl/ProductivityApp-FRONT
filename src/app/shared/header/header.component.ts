@@ -22,7 +22,7 @@ export class HeaderComponent implements OnDestroy {
   authService = inject(TokenServiceService);
   userService = inject(UsersServiceService);
   router = inject(Router);
-  username: string = 'error';
+  username: string = '...';
   userId: string | null = this.authService.getId();
 
   public screenWidth: number = 0;
@@ -47,12 +47,11 @@ export class HeaderComponent implements OnDestroy {
         return of(null);
       })
     ).subscribe(user => {
-      this.username = user?.name ?? '...'; // Verifica se `user` não é null
+      this.username = user?.name ?? '...';
     });
   }
 
   ngOnDestroy(): void {
-    // Limpa a assinatura do Observable quando o componente é destruído
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

@@ -1,1 +1,23 @@
-<p>create works!</p>
+<h1 matDialogTitle>New Task</h1>
+
+<mat-dialog-content>
+  <form action="">
+    <section class="task-field">
+      <span>Name: </span><br>
+      <input type="name">
+    </section>
+    <section class="task-field">
+      <span>Description: </span><br>
+      <input type="description">
+    </section>
+    <section class="task-field">
+      <span>Term: </span><br>
+      <input type="description">
+    </section>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button matDialogClose>Cancel</button>
+  <button mat-flat-button>Create</button>
+</mat-dialog-actions>

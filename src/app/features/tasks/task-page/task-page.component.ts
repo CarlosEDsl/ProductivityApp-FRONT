@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-page',
@@ -29,6 +30,10 @@ export class TaskPageComponent {
 
   public screenWidth: number = 0;
 
+  constructor(public creationDialog: MatDialog) {
+
+  }
+
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
   }
@@ -44,7 +49,7 @@ export class TaskPageComponent {
 
   //Paginator
   length = this.tasks.length;
-  pageSize = 3;
+  pageSize = 5;
   pageIndex = 0;
 
   hidePageSize = true;
@@ -64,5 +69,12 @@ export class TaskPageComponent {
   get paginatedTasks(): Task[] {
     const startIndex = this.pageIndex * this.pageSize;
     return this.tasks.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  onCreate() {
+    this.creationDialog.open(CreateComponent, {
+      width: '90%',
+      height: '80%'
+    })
   }
 }

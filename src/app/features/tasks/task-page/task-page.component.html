@@ -2,7 +2,7 @@
 
   <div class="tasks-container" *ngIf="screenWidth >= 740">
     <div class="creation-container">
-      <button mat-flat-button class="create-button">Create Task</button>
+      <button mat-flat-button class="create-button" (click)="onCreate()">Create Task</button>
     </div>
       <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm" >
         <ng-container *ngIf="task; else loading">
