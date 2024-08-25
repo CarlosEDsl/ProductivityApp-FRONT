@@ -4,15 +4,28 @@
     <div class="creation-container">
       <button mat-button>Create Task</button>
     </div>
-    <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
-      <ng-container *ngIf="task; else loading">
-        <app-card
-          class="task"
-          [task]="task"
-        >
-        </app-card>
+    <div *ngIf="screenWidth >= 740" class="normalView">
+      <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
+        <ng-container *ngIf="task; else loading">
+          <app-card
+            class="task"
+            [task]="task"
+          >
+          </app-card>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
+    <div *ngIf="screenWidth <= 740" class="mobileView">
+      <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
+        <ng-container *ngIf="task; else loading">
+          <app-mobile-card
+            class="task"
+            [task]="task"
+          >
+          </app-mobile-card>
+        </ng-container>
+      </ng-container>
+    </div>
   </div>
 
   <div class="no-content-container">

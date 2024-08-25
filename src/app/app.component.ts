@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { HeaderComponent } from './shared/header/header.component';

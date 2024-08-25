@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Task } from '../../../shared/interfaces/task';
@@ -11,11 +11,13 @@ import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateComponent } from '../components/create/create.component';
+import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 
 @Component({
   selector: 'app-task-page',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, CardComponent, MatPaginatorModule, MatFormFieldModule, MatInputModule, CreateComponent],
+  imports: [MatCardModule, MatButtonModule, CommonModule, CardComponent, MatPaginatorModule,
+     MatFormFieldModule, MatInputModule, CreateComponent, MobileCardComponent],
   templateUrl: './task-page.component.html',
   styleUrl: './task-page.component.scss'
 })
@@ -24,7 +26,17 @@ export class TaskPageComponent {
   taskService = inject(TaskService);
   authService:TokenServiceService = inject(TokenServiceService);
 
-  ngOnInit() {}
+  public screenWidth: number = 0;
+
+  ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+  }
+
   trackByTaskTerm(index: number, task: Task): string {
     return task.term.toString();
   }
