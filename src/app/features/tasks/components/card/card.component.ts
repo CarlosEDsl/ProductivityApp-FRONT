@@ -30,7 +30,7 @@ export class CardComponent {
     this.delete.emit();
   }
 
-  getTermFormatted(taskTerm: Date): string {
+  getTermFormatted(taskTerm: string): string {
     const term = new Date(taskTerm);
     const now = new Date();
 

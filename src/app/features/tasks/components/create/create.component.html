@@ -1,23 +1,43 @@
-<h1 matDialogTitle>New Task</h1>
+<h1 mat-dialog-title>New Task</h1>
 
 <mat-dialog-content>
-  <form action="">
-    <section class="task-field">
-      <span>Name: </span><br>
-      <input type="name">
-    </section>
-    <section class="task-field">
-      <span>Description: </span><br>
-      <input type="description">
-    </section>
-    <section class="task-field">
-      <span>Term: </span><br>
-      <input type="description">
-    </section>
-  </form>
+  <mat-card *ngIf="creationForm">
+    <div class="task-card-container">
+      <form action="" [formGroup]="creationForm">
+        <!-- Nome -->
+        <mat-card-header>
+          <mat-card-title *ngIf="!isEditingName" (click)="toggleEdit('name')" >
+            {{ creationForm.get('name')?.value || 'Name'}}
+          </mat-card-title>
+          <input #nameInput id="nameinput" *ngIf="isEditingName" formControlName="name"
+                 (blur)="saveEdit('name')"
+                 (keydown.enter)="saveEdit('name')"
+                 placeholder="Name"
+                 maxlength="20" />
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-card-title>Description</mat-card-title>
+            <textarea id="desc" formControlName="description"></textarea>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-form-field>
+            <mat-label>Term</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="term">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </mat-card-footer>
+      </form>
+
+
+    </div>
+  </mat-card>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button matDialogClose>Cancel</button>
-  <button mat-flat-button>Create</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button (click)="onSubmit()">Create</button>
 </mat-dialog-actions>
