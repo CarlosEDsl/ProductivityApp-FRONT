@@ -24,12 +24,13 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.APIUrl}/task/user/${userId}`, { headers });
   }
 
-  create(task:Task): Observable<Task> {
-    return this.http.post<Task>(`${this.APIUrl}/task`, task, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      })
-    })
+  create(task: Task, auth: string): Observable<Task> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `${auth}`
+    });
+    return this.http.post<Task>(`${this.APIUrl}/task`, task, { headers: headers });
   }
+
 }

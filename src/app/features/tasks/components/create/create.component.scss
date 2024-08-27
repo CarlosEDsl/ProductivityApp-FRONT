@@ -1,0 +1,86 @@
+input {
+  width: 100%;
+  font-size: inherit;
+}
+
+mat-card {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: 5px 30px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+
+mat-card-footer > p {
+  font-size: 11px;
+  padding-right: 4%;
+}
+
+mat-card-actions {
+  margin-top: 10px;
+}
+
+.modifier-buttons {
+  margin-left: 0px;
+}
+
+.modifier-buttons > button {
+  margin-right: 5px;
+}
+
+.task-card-container {
+  height: 100%;
+}
+
+mat-card {
+  display: flex;
+}
+
+input {
+  border-radius: 5px;
+  height: 40px;
+  box-sizing: content-box;
+  width: auto;
+}
+
+textarea {
+  font-size: 20px;
+  width: 100%;
+  min-height: 200px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding-inline-start: 4px;
+  overflow: hidden;
+  resize: none;
+  border: none;
+  background-color: #e0e2ec;
+}
+
+textarea:hover {
+  transition: background-color 0.1s ease;
+  background-color: #c3c5cf;
+}
+
+textarea:focus {
+  outline: none;
+  border: 2px solid rgba(211, 211, 211, 0.352);
+}
+
+#nameinput {
+  background-color: #c3c5cf;
+  font-size: 18px;
+}
+
+#nameinput:focus {
+  outline: none;
+  border: 2px solid rgba(211, 211, 211, 0.352);
+}

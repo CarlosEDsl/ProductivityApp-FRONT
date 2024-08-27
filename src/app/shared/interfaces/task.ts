@@ -1,10 +1,9 @@
-import { User } from "./user";
-
 export interface Task {
-  id:number,
-  user:User,
+  id?:number,
+  user_id:number,
   name:string,
-  description:string,
-  inputDate:Date,
-  term:Date
+  description?:string,
+  inputDate?:string,
+  term:string
+  finishDate?:string
 }
