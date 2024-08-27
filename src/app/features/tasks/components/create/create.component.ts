@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from '../../../../shared/services/task.service';
 import { Task } from '../../../../shared/interfaces/task';
@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { TokenServiceService } from '../../../../shared/services/token-service.service';
+import { elementAt } from 'rxjs';
 
 
 @Component({
@@ -37,6 +38,8 @@ export class CreateComponent {
   isEditingTerm: boolean = false;
 
   @ViewChild('nameInput') nameInput!: ElementRef;
+
+  constructor(private renderer:Renderer2) {}
 
 
 
@@ -79,7 +82,7 @@ export class CreateComponent {
         term: new Date(taskForm.term).toISOString(),
         inputDate: new Date().toISOString(),
         finishDate: taskForm.finishDate ? new Date(taskForm.finishDate).toISOString() : undefined
-      };
+      }
 
       if (newTask.user_id === 0) {
         throw new Error("Id not found");
@@ -95,6 +98,8 @@ export class CreateComponent {
           console.error('Error creating task', error);
         }
       });
+    } else {
+      this.renderer.addClass(this.nameInput, "incorrectInput")
     }
   }
 
