@@ -14,3 +14,10 @@ app-side-bar {
   z-index: 1;
   text-align: center;
 }
+.timepicker-backdrop-overlay {
+  z-index: 9999;
+}
+
+.timepicker-overlay{
+  z-index: 9999;
+}

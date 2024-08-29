@@ -12,8 +12,12 @@ mat-card {
 mat-card-footer {
   display: flex;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
   margin: 5px 30px;
+}
+
+mat-card-footer > mat-form-field {
+  margin: 0px 8px;
 }
 
 mat-card-content {
@@ -88,3 +92,13 @@ textarea:focus {
 .incorrectInput {
   border: 2px solid rgb(255, 0, 0);;
 }
+
+.cdk-overlay-container {
+  z-index: 1000 !important; /* Certifique-se de que o overlay container tenha um z-index suficientemente alto */
+}
+
+.custom-timepicker .ngx-material-timepicker-container, .timepicker-overlay, .timepicker-backdrop-overlay {
+  z-index: 1100 !important; /* Aumente o z-index para garantir que fique acima do MatDialog */
+}
+
+
