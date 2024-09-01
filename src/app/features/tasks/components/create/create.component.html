@@ -29,7 +29,8 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <input matInput [ngxTimepicker]="timePicker" formControlName="termTime"  placeholder="Term time">
+            <mat-label>Term time</mat-label>
+            <input matInput [ngxTimepicker]="timePicker" formControlName="termTime">
             <ngx-material-timepicker #timePicker class="custom-timepicker"></ngx-material-timepicker>
           </mat-form-field>
         </mat-card-footer>

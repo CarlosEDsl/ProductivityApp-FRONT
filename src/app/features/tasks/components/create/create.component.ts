@@ -14,6 +14,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { TokenServiceService } from '../../../../shared/services/token-service.service';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { NgxMaterialTimepickerComponent, NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { TaskPageComponent } from '../../task-page/task-page.component';
 
 
 @Component({
@@ -102,7 +103,6 @@ export class CreateComponent {
         throw new Error("Id not found");
       }
 
-      console.log(newTask);
       this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
         next: (response) => {
           console.log('Task created successfully', response);
@@ -114,8 +114,6 @@ export class CreateComponent {
       });
     }
   }
-
-
 
   saveEdit(field: string) {
     this.toggleEdit(field);

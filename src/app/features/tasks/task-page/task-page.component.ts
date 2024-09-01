@@ -14,6 +14,7 @@ import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-page',
@@ -27,7 +28,7 @@ export class TaskPageComponent {
   tasks: Task[] = inject(ActivatedRoute).snapshot.data['tasks'];
   taskService = inject(TaskService);
   authService:TokenServiceService = inject(TokenServiceService);
-
+  private tasksSubscription!: Subscription;
   public screenWidth: number = 0;
 
   constructor(public creationDialog: MatDialog) {
@@ -36,15 +37,25 @@ export class TaskPageComponent {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.loadTasks();
+    this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
+      this.tasks = tasks;
+    });
+  }
+
+  loadTasks() {
+    const userId = this.authService.getId() || '';
+    const token = this.authService.getToken() || '';
+    this.taskService.loadTasks(userId, token);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
-    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+    this.screenWidth = window.innerWidth;
   }
 
   trackByTaskTerm(index: number, task: Task): string {
-    return task.term.toString();
+    return task.term;
   }
 
   //Paginator
