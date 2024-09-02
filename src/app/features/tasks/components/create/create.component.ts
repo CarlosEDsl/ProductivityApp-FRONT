@@ -15,6 +15,7 @@ import { TokenServiceService } from '../../../../shared/services/token-service.s
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { NgxMaterialTimepickerComponent, NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TaskPageComponent } from '../../task-page/task-page.component';
+import { SnackbarService } from '../../../../shared/snack-bar/snack-bar.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class CreateComponent {
   createDialog = inject(MatDialog);
   taskService = inject(TaskService);
   authService = inject(TokenServiceService);
+  responseBar = inject(SnackbarService);
   creationForm!: FormGroup;
   task?:Task;
   private _bottomSheet = inject(MatBottomSheet);
@@ -87,14 +89,14 @@ export class CreateComponent {
 
       const termDate = new Date(taskForm.termDate);
 
-      const {hour, minute} = this.brazillianHoursConverter(taskForm.termTime);
-      termDate.setHours(hour-3, minute, 0);
+      const {hour, minute} = this.hours24Converter(taskForm.termTime);
+      termDate.setUTCHours(hour+3, minute, 0);
 
       const newTask: Task = {
         user_id: parseInt(this.authService.getId() || '0'),
         name: taskForm.name,
         description: taskForm.description,
-        term: termDate.toISOString(), // Combinação de data e hora
+        term: termDate.toISOString(),
         inputDate: new Date().toISOString(),
         finishDate: taskForm.finishDate ? new Date(taskForm.finishDate).toISOString() : undefined
       };
@@ -102,16 +104,21 @@ export class CreateComponent {
       if (newTask.user_id === 0) {
         throw new Error("Id not found");
       }
-
-      this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
-        next: (response) => {
-          console.log('Task created successfully', response);
-          this.createDialog.closeAll();
-        },
-        error: (error) => {
-          console.error('Error creating task', error);
-        }
-      });
+      if(new Date(newTask.term).getTime() > Date.now()){
+        this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
+          next: (response) => {
+            this.responseBar.show("Task successful created", 'success');
+            this.createDialog.closeAll();
+          },
+          error: (error) => {
+            this.responseBar.show("Error in task creation", 'error');
+          }
+        });
+      } else {
+        this.responseBar.show("Term can't be before now", 'error');
+      }
+    } else {
+      this.responseBar.show("Data is missing", 'error');
     }
   }
 
@@ -128,29 +135,26 @@ export class CreateComponent {
     this.createDialog.open(CreateComponent).addPanelClass("downDialog");
   }
 
-  brazillianHoursConverter(time: string) {
+  hours24Converter(time: string) {
     let hour: number=0;
     let minute: number;
 
-    // Extraia os valores de hora e minuto
-    const period = time.slice(-2); // "AM" ou "PM"
-    const timeWithoutPeriod = time.slice(0, -2); // Remove "AM" ou "PM"
+    const period = time.slice(-2);
+    const timeWithoutPeriod = time.slice(0, -2);
     const [hourString, minuteString] = timeWithoutPeriod.split(':');
 
-    // Converta os valores para números
     const hourNumber = parseInt(hourString, 10);
     minute = parseInt(minuteString, 10);
 
-    // Converta para o formato de 24 horas
     if (period === 'PM') {
       if (hourNumber !== 12) {
-        hour = hourNumber + 12; // Adiciona 12 horas para PM, exceto para 12 PM
+        hour = hourNumber + 12;
       } else {
-        hour = 12; // 12 PM é 12:00 no formato de 24 horas
+        hour = 12;
       }
     } else if (period === 'AM') {
       if (hourNumber === 12) {
-        hour = 0; // 12 AM é 00:00 no formato de 24 horas
+        hour = 0;
       } else {
         hour = hourNumber;
       }
