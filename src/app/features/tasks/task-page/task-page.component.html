@@ -6,7 +6,7 @@
     </div>
       <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm" >
         <ng-container *ngIf="task; else loading">
-          <app-card
+          <app-card (delete)="onDelete($event)" (edit)="onEdit($event)"
             class="task"
             [task]="task"
           >
@@ -21,7 +21,7 @@
 
       <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
         <ng-container *ngIf="task; else loading">
-          <app-mobile-card
+          <app-mobile-card (delete)="onDelete($event)" (delete)="onDelete($event)" (edit)="onEdit($event)"
             class="task"
             [task]="task"
           >

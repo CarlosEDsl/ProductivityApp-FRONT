@@ -14,7 +14,9 @@ import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError } from 'rxjs';
+import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
+import { EditComponent } from '../components/edit/edit.component';
 
 @Component({
   selector: 'app-task-page',
@@ -25,6 +27,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './task-page.component.scss'
 })
 export class TaskPageComponent {
+
+  responseSnackBar = inject(SnackbarService);
   tasks: Task[] = inject(ActivatedRoute).snapshot.data['tasks'];
   taskService = inject(TaskService);
   authService:TokenServiceService = inject(TokenServiceService);
@@ -88,4 +92,25 @@ export class TaskPageComponent {
       height: '80%'
     })
   }
+
+  onDelete(TaskId:number) {
+    this.taskService.delete(TaskId, this.authService.getToken() || '').subscribe({
+      next: () => {
+        this.responseSnackBar.show("Task deleted", "success")
+      },
+      error: () => {
+        this.responseSnackBar.show("Error on task delete", "error")
+      }
+    });
+    this.length = this.length-1;
+  }
+
+  onEdit(task:Task) {
+    this.creationDialog.open(EditComponent, {
+      width: '90%',
+      height: '80%',
+      data: task
+    })
+  }
+
 }

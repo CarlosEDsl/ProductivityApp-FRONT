@@ -8,8 +8,8 @@
         </mat-card-content>
         <mat-card-actions align="end">
           <div class="modifier-buttons">
-            <button mat-stroked-button color="warn">Delete</button>
-            <button mat-stroked-button>Edit</button>
+            <button mat-stroked-button color="warn" (click)="onDelete(taskId())">Delete</button>
+            <button mat-stroked-button (click)="onEdit(taskU())">Edit</button>
           </div>
           <button mat-flat-button>Finish</button>
         </mat-card-actions>

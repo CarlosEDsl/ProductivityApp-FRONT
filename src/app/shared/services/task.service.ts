@@ -37,13 +37,39 @@ export class TaskService {
       'Authorization': `${auth}`
     });
     return this.http.post<Task>(`${this.APIUrl}/task`, task, { headers: headers }).pipe(
-      // Atualize o BehaviorSubject somente quando a tarefa for criada com sucesso
       tap(newTask => {
         const currentTasks = this.tasksSource.value;
         this.tasksSource.next([...currentTasks, newTask]);
       })
     );
+  }
 
+  delete(taskId:number, auth: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `${auth}`
+    });
+
+    return this.http.delete(`${this.APIUrl}/task/${taskId}`, { headers: headers })
+    .pipe( tap(() => {
+        const updatedTasks = this.tasksSource.value.filter(task => task.id !== taskId);
+        this.tasksSource.next(updatedTasks);
+    }))
+  }
+
+  edit(task:Task, auth: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `${auth}`
+    });
+
+    return this.http.put(`${this.APIUrl}/task/${task.id}`, task, { headers: headers })
+    .pipe( tap(() => {
+        const updatedTasks = this.tasksSource.value.filter(taskl => task.id !== taskl.id);
+        this.tasksSource.next(updatedTasks);
+    }))
   }
 
   loadTasks(userId: string, token: string) {
