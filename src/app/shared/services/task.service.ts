@@ -65,10 +65,15 @@ export class TaskService {
       'Authorization': `${auth}`
     });
 
-    return this.http.put(`${this.APIUrl}/task/${task.id}`, task, { headers: headers })
-    .pipe( tap(() => {
-        const updatedTasks = this.tasksSource.value.filter(taskl => task.id !== taskl.id);
-        this.tasksSource.next(updatedTasks);
+    return this.http.put<Task>(`${this.APIUrl}/task/${task.id}`, task, { headers: headers })
+    .pipe( tap((updatedTask) => {
+        const currentTasks = this.tasksSource.value;
+        const index = currentTasks.findIndex(t => t.id === updatedTask.id);
+
+        if (index !== -1) {
+          currentTasks[index] = updatedTask;
+          this.tasksSource.next([...currentTasks]); // Emit the updated list
+        }
     }))
   }
 

@@ -17,11 +17,11 @@
 
   <div class="tasks-mobile-container" *ngIf="screenWidth <= 740">
     <div class="creation-container">
-      <button mat-flat-button class="create-button"><mat-icon class="mat-18">add</mat-icon></button>
+      <button mat-flat-button class="create-button" (click)="onCreate()"><mat-icon class="mat-18">add</mat-icon></button>
 
       <ng-container class="task-item" *ngFor="let task of paginatedTasks; trackBy: trackByTaskTerm">
         <ng-container *ngIf="task; else loading">
-          <app-mobile-card (delete)="onDelete($event)" (delete)="onDelete($event)" (edit)="onEdit($event)"
+          <app-mobile-card (delete)="onDelete($event)" (edit)="onEdit($event)"
             class="task"
             [task]="task"
           >

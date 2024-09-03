@@ -131,7 +131,7 @@ export class EditComponent {
       if(new Date(updatedTask.term).getTime() > Date.now()){
         this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
-            this.responseBar.show("Task successful edited", 'success');
+            this.responseBar.show("Task successful edited ", 'success');
             this.createDialog.closeAll();
           },
           error: (error) => {
