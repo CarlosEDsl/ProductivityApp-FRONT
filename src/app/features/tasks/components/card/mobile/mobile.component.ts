@@ -16,19 +16,26 @@ export class MobileCardComponent {
   task = input.required<Task>();
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
+  @Output() finish = new EventEmitter();
 
 
+  taskU = computed(() => this.task())
+  taskId = computed(() => this.task().id);
   taskName = computed(() => this.task().name);
   taskDesc = computed(() => this.task().description);
   taskTerm = computed(() => this.task().term);
   taskCreated = computed(() => this.task().inputDate);
 
-  onEdit() {
-    this.edit.emit();
+  onEdit(task:Task) {
+    this.edit.emit(task);
   }
 
-  onDelete() {
-    this.delete.emit();
+  onDelete(taskId:number | undefined) {
+    this.delete.emit(taskId);
+  }
+
+  onFinish(task:Task) {
+    this.finish.emit(task);
   }
 
   getTermFormatted(taskTerm: string): string {

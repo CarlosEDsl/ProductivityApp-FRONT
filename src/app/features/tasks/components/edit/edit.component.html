@@ -1,12 +1,12 @@
-<h1 mat-dialog-title>New Task</h1>
+<h1 mat-dialog-title>Edit Task</h1>
 
 <mat-dialog-content>
-  <mat-card *ngIf="creationForm">
+  <mat-card *ngIf="editForm">
     <div class="task-card-container">
-      <form action="" [formGroup]="creationForm">
+      <form action="" [formGroup]="editForm">
         <mat-card-header>
           <mat-card-title *ngIf="!isEditingName" (click)="toggleEdit('name')">
-            {{ creationForm.get('name')?.value || 'Name*' }}
+            {{ editForm.get('name')?.value || 'Name*' }}
           </mat-card-title>
           <input #nameInput id="nameinput" *ngIf="isEditingName" formControlName="name"
                  (blur)="saveEdit('name')"
@@ -43,5 +43,5 @@
 
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-flat-button (click)="onSubmit()">Create</button>
+  <button mat-flat-button (click)="onSubmit()">Confirm</button>
 </mat-dialog-actions>

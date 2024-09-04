@@ -14,6 +14,9 @@ import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription, catchError } from 'rxjs';
+import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
+import { EditComponent } from '../components/edit/edit.component';
 
 @Component({
   selector: 'app-task-page',
@@ -24,10 +27,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './task-page.component.scss'
 })
 export class TaskPageComponent {
+
+  responseSnackBar = inject(SnackbarService);
   tasks: Task[] = inject(ActivatedRoute).snapshot.data['tasks'];
   taskService = inject(TaskService);
   authService:TokenServiceService = inject(TokenServiceService);
-
+  private tasksSubscription!: Subscription;
   public screenWidth: number = 0;
 
   constructor(public creationDialog: MatDialog) {
@@ -36,15 +41,25 @@ export class TaskPageComponent {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.loadTasks();
+    this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
+      this.tasks = tasks;
+    });
+  }
+
+  loadTasks() {
+    const userId = this.authService.getId() || '';
+    const token = this.authService.getToken() || '';
+    this.taskService.loadTasks(userId, token);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
-    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+    this.screenWidth = window.innerWidth;
   }
 
   trackByTaskTerm(index: number, task: Task): string {
-    return task.term.toString();
+    return task.term;
   }
 
   //Paginator
@@ -76,5 +91,35 @@ export class TaskPageComponent {
       width: '90%',
       height: '80%'
     })
+  }
+
+  onDelete(taskId:number) {
+    this.taskService.delete(taskId, this.authService.getToken() || '').subscribe({
+      next: () => {
+        this.responseSnackBar.show("Task deleted", "success")
+      },
+      error: () => {
+        this.responseSnackBar.show("Error on task delete", "error")
+      }
+    });
+    this.length = this.length-1;
+  }
+
+  onEdit(task:Task) {
+    this.creationDialog.open(EditComponent, {
+      width: '90%',
+      height: '80%',
+      data: task
+    })
+  }
+
+  onFinish(task:Task) {
+
+    let finishDate = new Date();
+    finishDate.setHours(finishDate.getHours()-3);
+    task.finishDate = finishDate.toISOString();
+    console.log(task);
+    task.user_id = parseInt(this.authService.getId() || '');
+    this.taskService.edit(task, this.authService.getToken() || '').subscribe();
   }
 }

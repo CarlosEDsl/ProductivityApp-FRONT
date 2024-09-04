@@ -1,5 +1,5 @@
-import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild, Renderer2, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild, Renderer2, ViewEncapsulation, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from '../../../../shared/services/task.service';
 import { Task } from '../../../../shared/interfaces/task';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,17 +25,17 @@ import { SnackbarService } from '../../../../shared/snack-bar/snack-bar.service'
     MatCardModule, CommonModule, FormsModule, ReactiveFormsModule, MatDatepickerModule,
     MatInputModule, MatFormFieldModule, MatBottomSheetModule, NgxMaterialTimepickerModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './create.component.html',
+  templateUrl: './edit.component.html',
   providers: [provideNativeDateAdapter()],
-  styleUrl: './create.component.scss',
+  styleUrl: './edit.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class CreateComponent {
+export class EditComponent {
   createDialog = inject(MatDialog);
   taskService = inject(TaskService);
   authService = inject(TokenServiceService);
   responseBar = inject(SnackbarService);
-  creationForm!: FormGroup;
+  editForm!: FormGroup;
   task?:Task;
   private _bottomSheet = inject(MatBottomSheet);
 
@@ -47,29 +47,52 @@ export class CreateComponent {
   @ViewChild(MatDatepicker) datePicker!: MatDatepicker<any>;
   @ViewChild(NgxMaterialTimepickerComponent) timePicker!: NgxMaterialTimepickerComponent;
 
-  constructor(private renderer:Renderer2) {}
+  constructor(private renderer:Renderer2, @Inject(MAT_DIALOG_DATA) public data: Task) {}
 
 
 
   ngOnInit() {
-    this.creationForm = new FormGroup({
-      name: new FormControl(this.task?.name ?? '', {
+    const termDate = new Date(this.data.term);
+
+    let hours = termDate.getHours();
+    let minutes = termDate.getMinutes();
+
+    let amORpm = 'AM';
+    if (hours >= 12) {
+      amORpm = 'PM';
+      if (hours > 12) {
+        hours -= 12;
+      }
+    }
+    if (hours === 0) {
+      hours = 12;
+    }
+
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${amORpm}`;
+    console.log(formattedTime);
+
+    this.editForm = new FormGroup({
+      name: new FormControl(this.task?.name ?? this.data.name, {
         nonNullable: true,
         validators: Validators.required
       }),
-      description: new FormControl(this.task?.description ?? '', {
+      description: new FormControl(this.task?.description ?? this.data.description, {
         validators: Validators.maxLength(250)
       }),
-      termDate: new FormControl(this.task?.term ?? '', {
+      termDate: new FormControl(this.task?.term ?? this.data.term, {
         nonNullable: true,
         validators: Validators.required
       }),
-      termTime: new FormControl('', {
+      termTime: new FormControl(formattedTime, {
         nonNullable: true,
         validators: Validators.required
       }),
     });
   }
+
 
   toggleEdit(field: string) {
     switch (field) {
@@ -84,15 +107,16 @@ export class CreateComponent {
 
 
   onSubmit() {
-    if (this.creationForm.valid) {
-      const taskForm = this.creationForm.value;
+    if (this.editForm.valid) {
+      const taskForm = this.editForm.value;
 
       const termDate = new Date(taskForm.termDate);
 
       const {hour, minute} = this.hours24Converter(taskForm.termTime);
       termDate.setUTCHours(hour+3, minute, 0);
 
-      const newTask: Task = {
+      const updatedTask: Task = {
+        id: this.data.id,
         user_id: parseInt(this.authService.getId() || '0'),
         name: taskForm.name,
         description: taskForm.description,
@@ -101,17 +125,17 @@ export class CreateComponent {
         finishDate: taskForm.finishDate ? new Date(taskForm.finishDate).toISOString() : undefined
       };
 
-      if (newTask.user_id === 0) {
+      if (updatedTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(newTask.term).getTime() > Date.now()){
-        this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
+      if(new Date(updatedTask.term).getTime() > Date.now()){
+        this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
-            this.responseBar.show("Task successful created", 'success');
+            this.responseBar.show("Task successful edited ", 'success');
             this.createDialog.closeAll();
           },
           error: (error) => {
-            this.responseBar.show("Error in task creation", 'error');
+            this.responseBar.show("Error in task edited", 'error');
           }
         });
       } else {
@@ -129,10 +153,6 @@ export class CreateComponent {
   removeFocus(event: FocusEvent): void {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.setSelectionRange(0, 0); // Remove a seleção de texto
-  }
-
-  create() {
-    this.createDialog.open(CreateComponent).addPanelClass("downDialog");
   }
 
   hours24Converter(time: string) {
