@@ -3,11 +3,12 @@ import { Component, computed, EventEmitter, inject, input, Output } from '@angul
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { SnackbarService } from '../../../../shared/snack-bar/snack-bar.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, CommonModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
@@ -24,6 +25,7 @@ export class CardComponent {
   taskDesc = computed(() => this.task().description);
   taskTerm = computed(() => this.task().term);
   taskCreated = computed(() => this.task().inputDate);
+  taskFinish = computed(() => this.task().finishDate);
 
   onEdit(task:Task) {
     this.edit.emit(task);
@@ -34,7 +36,7 @@ export class CardComponent {
   }
 
   onFinish(task:Task) {
-    this.finish.emit(task)
+    this.finish.emit(task);
   }
 
   getTermFormatted(taskTerm: string): string {

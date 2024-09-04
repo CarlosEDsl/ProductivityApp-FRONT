@@ -3,6 +3,7 @@ import { TaskPageComponent } from './features/tasks/task-page/task-page.componen
 import { LoginComponent } from './features/authentication/login/login.component';
 import { RegisterComponent } from './features/authentication/register/register.component';
 import { getTasksResolver } from './shared/resolvers/get-tasks.resolver';
+import { StatisticPageComponent } from './features/statistics/statistic-page/statistic-page.component';
 
 export const routes: Routes = [
   {
@@ -19,5 +20,9 @@ export const routes: Routes = [
   {
     path: 'create-account',
     component:RegisterComponent
+  },
+  {
+    path: 'statistics',
+    component:StatisticPageComponent
   }
 ];
