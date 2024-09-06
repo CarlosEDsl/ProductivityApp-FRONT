@@ -1,6 +1,10 @@
+import { UsersServiceService } from './../../../shared/services/users-service.service';
 import { monthHours } from './../statistic-data';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { TokenServiceService } from '../../../shared/services/token-service.service';
+import { HoursTime } from '../../../shared/interfaces/hours-time';
+import { map, catchError, of, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-average-per-month',
   standalone: true,
@@ -10,54 +14,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AveragePerMonthComponent implements OnInit{
 
-  monthHours: any[] = [{
-    "name": "January",
-    "value": 100
-  },
-  {
-    "name": "Feb",
-    "value": 70
-  },
-  {
-    "name": "March",
-    "value": 120
-  },
-  {
-    "name": "April",
-    "value": 100
-  },
-  {
-    "name": "May",
-    "value": 70
-  },
-  {
-    "name": "June",
-    "value": 120
-  },
-  {
-    "name": "July",
-    "value": 100
-  },
-  {
-    "name": "August",
-    "value": 70
-  },
-  {
-    "name": "Septemper",
-    "value": 120
-  },
-  {
-    "name": "Octuber",
-    "value": 100
-  },
-  {
-    "name": "November",
-    "value": 70
-  },
-  {
-    "name": "December",
-    "value": 120
-  }];
+  constructor(
+    private tokenService: TokenServiceService,
+    private userService: UsersServiceService
+  ) {}
+
+  monthHours: any[] = [];
+
   view: [number, number] = [500, 300];
   colorScheme = 'flame';
   schemeType: any = 'linear';
@@ -80,7 +43,52 @@ export class AveragePerMonthComponent implements OnInit{
   roundEdges: boolean = false;
 
   ngOnInit(): void {
-
+    this.getStatistics().subscribe(statistics => {
+      this.monthHours = statistics;
+    });
   }
+
+
+  getStatistics() {
+    const requests = [];
+    const year = new Date().getFullYear();
+
+    for (let i = 1; i <= 12; i++) {
+        let hoursTime: HoursTime = { month: i, year };
+        const request = this.userService.getMonthS(
+            parseInt(this.tokenService.getId() || '0'),
+            hoursTime,
+            this.tokenService.getToken() || ''
+        ).pipe(
+            map((m) => ({
+                name: this.getMonthName(i),
+                value: m.avgConclusions
+            })),
+            catchError(() => {
+                return of({
+                    name: this.getMonthName(i),
+                    value: 0
+                });
+            })
+        );
+
+        requests.push(request);
+    }
+
+    return forkJoin(requests).pipe(
+        map(statistics => {
+            return statistics;
+        })
+    );
+}
+
+getMonthName(monthNumber: number) {
+    const months = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+    return months[monthNumber - 1] || 'Mês inválido';
+}
+
 
 }

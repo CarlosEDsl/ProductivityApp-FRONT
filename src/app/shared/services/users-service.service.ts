@@ -1,11 +1,12 @@
 import { UserLogin } from './../interfaces/user-login';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { HoursTime } from '../interfaces/hours-time';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenServiceService } from './token-service.service';
 import { LoginResponse } from '../interfaces/login-response';
+import { MonthStatics } from '../interfaces/month-statistic';
 
 @Injectable({
   providedIn: 'root'
@@ -49,13 +50,17 @@ export class UsersServiceService {
     return this.httpClient.patch<HoursTime>(`${this.ApiURL}/user/${id}`, statsHour);
   }
 
-  getMonthS(id: number, statsHour: HoursTime, auth: string) {
-    return this.httpClient.request<HoursTime>('GET', `${this.ApiURL}/statistic/${id}`, {
-      body: statsHour,
+  getMonthS(userId: number, statsHour: HoursTime, auth: string) {
+    const params = new HttpParams()
+      .set('month', statsHour.month.toString())
+      .set('year', statsHour.year.toString());
+
+    return this.httpClient.get<MonthStatics>(`${this.ApiURL}/user/statistic/${userId}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': auth
-      })
+      }),
+      params: params
     });
   }
 
@@ -77,4 +82,5 @@ export class UsersServiceService {
       })
     );
   }
+
 }
