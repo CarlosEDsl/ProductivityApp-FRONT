@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [ngClass]="{'completed': taskFinish()}" class="task">
   <div class="task-card-container">
       <mat-card-header>
           <mat-card-title> {{ taskName() }} </mat-card-title>
@@ -13,8 +13,12 @@
         </div>
         <button mat-flat-button (click)="onFinish(taskU())"><mat-icon class="mat-18">check_small</mat-icon></button>
       </mat-card-actions>
-      <mat-card-footer>
+      <mat-card-footer *ngIf="!taskFinish()">
         <p>term in: {{ getTermFormatted(taskTerm()) }}</p>
+        <p>created: {{ taskCreated() }}</p>
+      </mat-card-footer>
+      <mat-card-footer *ngIf="taskFinish()">
+        <p>finished: {{ getFinishDateFormatted(taskFinish() || '') }}</p>
       </mat-card-footer>
 
   </div>

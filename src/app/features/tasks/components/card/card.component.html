@@ -18,7 +18,7 @@
           <p>created: {{ taskCreated() }}</p>
         </mat-card-footer>
         <mat-card-footer *ngIf="taskFinish()">
-          <p>finished: {{ taskFinish() }}</p>
+          <p>finished: {{ getFinishDateFormatted(taskFinish() || '') }}</p>
         </mat-card-footer>
     </div>
 </mat-card>

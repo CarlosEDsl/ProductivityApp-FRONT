@@ -72,7 +72,6 @@ export class EditComponent {
     const formattedMinutes = String(minutes).padStart(2, '0');
 
     const formattedTime = `${formattedHours}:${formattedMinutes} ${amORpm}`;
-    console.log(formattedTime);
 
     this.editForm = new FormGroup({
       name: new FormControl(this.task?.name ?? this.data.name, {
@@ -113,7 +112,7 @@ export class EditComponent {
       const termDate = new Date(taskForm.termDate);
 
       const {hour, minute} = this.hours24Converter(taskForm.termTime);
-      termDate.setUTCHours(hour+3, minute, 0);
+      termDate.setUTCHours(hour, minute);
 
       const updatedTask: Task = {
         id: this.data.id,
@@ -128,7 +127,7 @@ export class EditComponent {
       if (updatedTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(updatedTask.term).getTime() > Date.now()){
+      if(new Date(updatedTask.term).getTime()+10800000 > Date.now()){
         this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
             this.responseBar.show("Task successful edited ", 'success');

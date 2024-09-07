@@ -118,7 +118,6 @@ export class TaskPageComponent {
     let finishDate = new Date();
     finishDate.setHours(finishDate.getHours()-3);
     task.finishDate = finishDate.toISOString();
-    console.log(task);
     task.user_id = parseInt(this.authService.getId() || '');
     this.taskService.edit(task, this.authService.getToken() || '').subscribe();
   }

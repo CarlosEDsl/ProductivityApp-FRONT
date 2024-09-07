@@ -64,6 +64,15 @@ export class UsersServiceService {
     });
   }
 
+  getCurrentMonth(userId: number, auth: string) {
+    return this.httpClient.get<any>(`${this.ApiURL}/user/nowStatistic/${userId}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      })
+    });
+  }
+
   login(credentials: UserLogin): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.ApiURL}/login`, credentials, { observe: 'response' }).pipe(
       tap((response: HttpResponse<void>) => {

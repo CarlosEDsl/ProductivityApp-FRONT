@@ -1,7 +1,6 @@
 import { UsersServiceService } from './../../../shared/services/users-service.service';
-import { monthHours } from './../statistic-data';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
 import { HoursTime } from '../../../shared/interfaces/hours-time';
 import { map, catchError, of, forkJoin } from 'rxjs';
@@ -27,15 +26,15 @@ export class AveragePerMonthComponent implements OnInit{
   gradient: boolean = false;
   xAxis: boolean = true;
   yAxis: boolean = true;
-  legendTitle: string = 'Months';
-  legendTitleMulti: string = 'Hours';
+  legendTitle: string = "Months";
+  legendTitleMulti: string = "Conclusions(%)";
   legendPosition: any = 'right';
   legend: boolean = true;
   showXAxisLabel: boolean = true;
   showYAxisLabel: boolean = true;
   yAxisLabel: string = 'Hours';
   xAxisLabel: string = 'Month';
-  animations: boolean = false;
+  animations: boolean = true  ;
   showGridLines: boolean = true;
   showDataLabel: boolean = true;
   barPadding: number = 3
@@ -62,7 +61,7 @@ export class AveragePerMonthComponent implements OnInit{
         ).pipe(
             map((m) => ({
                 name: this.getMonthName(i),
-                value: m.avgConclusions
+                value: m.avgConclusions*100
             })),
             catchError(() => {
                 return of({
@@ -89,6 +88,5 @@ getMonthName(monthNumber: number) {
     ];
     return months[monthNumber - 1] || 'Mês inválido';
 }
-
 
 }

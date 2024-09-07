@@ -90,7 +90,7 @@ export class CreateComponent {
       const termDate = new Date(taskForm.termDate);
 
       const {hour, minute} = this.hours24Converter(taskForm.termTime);
-      termDate.setUTCHours(hour+3, minute, 0);
+      termDate.setUTCHours(hour, minute);
 
       const newTask: Task = {
         user_id: parseInt(this.authService.getId() || '0'),
@@ -104,7 +104,7 @@ export class CreateComponent {
       if (newTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(newTask.term).getTime() > Date.now()){
+      if(new Date(newTask.term).getTime()+10800000 > Date.now()){
         this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
             this.responseBar.show("Task successful created", 'success');

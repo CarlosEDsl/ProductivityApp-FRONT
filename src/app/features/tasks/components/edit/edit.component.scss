@@ -101,4 +101,8 @@ textarea:focus {
   z-index: 1100 !important; /* Aumente o z-index para garantir que fique acima do MatDialog */
 }
 
+.overdueTask{
+  background-color: red;
+}
+
 
