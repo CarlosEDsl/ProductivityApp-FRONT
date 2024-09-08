@@ -35,7 +35,10 @@ export class HoursPerMonthComponent implements OnInit {
 
   constructor(private userService: UsersServiceService, private authService: TokenServiceService)
   {
-    this.view = [innerWidth / 1.35, 400];
+    if(innerWidth <= 900)
+      this.view = [innerWidth / 1, 300]
+    else
+      this.view = [innerWidth / 1.35, 400];
   }
 
   onResize(event:any) {

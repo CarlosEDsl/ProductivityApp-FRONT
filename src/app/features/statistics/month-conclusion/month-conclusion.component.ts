@@ -17,12 +17,15 @@ export class MonthConclusionComponent implements OnInit{
     private tokenService: TokenServiceService,
     private userService: UsersServiceService
   ) {
-    this.view = [innerWidth / 2, 400];
+    if(innerWidth <= 900)
+      this.view = [innerWidth / 1.2, 400]
+    else
+      this.view = [innerWidth / 2, 400];
   }
 
   onResize(event:any) {
     this.view = [event.target.innerWidth / 2, 400];
-}
+  }
 
   ngOnInit(): void {
     this.getStatistics().subscribe(m => {

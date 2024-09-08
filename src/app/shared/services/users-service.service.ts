@@ -5,8 +5,8 @@ import { User } from '../interfaces/user';
 import { HoursTime } from '../interfaces/hours-time';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenServiceService } from './token-service.service';
-import { LoginResponse } from '../interfaces/login-response';
 import { MonthStatics } from '../interfaces/month-statistic';
+import { AddHours } from '../interfaces/add-hours';
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +46,13 @@ export class UsersServiceService {
     return this.httpClient.delete(`${this.ApiURL}/user/${id}`);
   }
 
-  patch(id: number, statsHour: HoursTime) {
-    return this.httpClient.patch<HoursTime>(`${this.ApiURL}/user/${id}`, statsHour);
+  patch(id: number, statsHour: AddHours, auth:string) {
+    return this.httpClient.patch(`${this.ApiURL}/user/${id}`, statsHour, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      })
+    });
   }
 
   getMonthS(userId: number, statsHour: HoursTime, auth: string) {

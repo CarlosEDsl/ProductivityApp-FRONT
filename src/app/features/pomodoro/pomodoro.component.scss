@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap');
+.pomodoro {
+  font-size: 62.5%;
+  font-family: 'Ubuntu';
+}
+
+section {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-family: 'Ubuntu', 'sans-serif';
+}
+
+.pomodoro-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: min(42.5rem, 100%);
+  margin: 0;
+}
+
+.pomodoro-timer {
+  background-color: rgb(187, 187, 187);
+  width: 80%;
+  height: 12rem;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.display {
+  background-color: aliceblue;
+  width: 80%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+.pomodoro-buttons {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.time {
+  display: flex;
+  user-select: none;
+}
+
+.time > p{
+  font-family: "Handjet", sans-serif;
+  font-style: normal;
+  font-weight: 350;
+  font-size: 72px;
+  margin: 0;
+}
+
+.controls {
+  width: 30%;
+}
+
+.pomodoro-buttons {
+  margin: 0 0 0 0;
+}
+
+.pomodoro-buttons > button {
+  background-color: rgb(198, 196, 196);
+  border: none;
+  margin: 0 10px;
+  border-radius: 10px 10px 0px 0px;
+  user-select: none;
+}
+
+.controls > button {
+  background-color: rgb(198, 196, 196);
+  border: none;
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.controls > button:hover, .pomodoro-buttons > button:hover, .longBreak:hover {
+  background-color: rgb(158, 157, 157);
+  cursor:pointer;
+}
+
+.longBreak {
+  background-color: rgb(198, 196, 196);
+  width: 10rem;
+  border: none;
+  border-radius: 4rem;
+  margin: 30px;
+  height: 3rem;
+}
+
+
+
+
+

@@ -27,6 +27,14 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.APIUrl}/task/user/${userId}`, { headers });
   }
 
+  get(userId:number, token:string) {
+    const headers = new HttpHeaders({
+      'Authorization': `${token}`
+    });
+
+    return this.http.get<Task>(`${this.APIUrl}/task/${userId}`, { headers });
+  }
+
   create(task: Task, auth: string): Observable<Task> {
 
     const currentTasks = this.tasksSource.value;

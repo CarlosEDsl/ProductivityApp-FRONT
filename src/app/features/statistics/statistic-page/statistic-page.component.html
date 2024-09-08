@@ -1,4 +1,4 @@
-<section class="charts">
+<section class="charts" *ngIf="screenWidth >= 900">
   <div id="month-conclusion" class="statistics">
     <h2>Current month</h2>
     <app-month-conclusion></app-month-conclusion>
@@ -12,6 +12,25 @@
     <app-average-per-month></app-average-per-month>
   </div>
   <div id="hours-per-month" class="statistics">
+    <h2>Hours Per Month</h2>
+    <app-hours-per-month></app-hours-per-month>
+  </div>
+</section>
+
+<section class="charts-less900" *ngIf="screenWidth < 900">
+  <div id="month-conclusion-less900" class="statistics">
+    <h2>Current month</h2>
+    <app-month-conclusion></app-month-conclusion>
+  </div>
+  <div id="task-done-less900" class="statistics">
+    <h2>All Time Tasks Done</h2>
+    <app-tasks-done></app-tasks-done>
+  </div>
+  <div id="avg-month-less900" class="statistics">
+    <h2>(%)Conclusions Per Month</h2>
+    <app-average-per-month></app-average-per-month>
+  </div>
+  <div id="hours-per-month-less900" class="statistics">
     <h2>Hours Per Month</h2>
     <app-hours-per-month></app-hours-per-month>
   </div>

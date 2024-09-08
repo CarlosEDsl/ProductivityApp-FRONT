@@ -44,8 +44,14 @@ export class TaskPageComponent {
     this.loadTasks();
     this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
       this.tasks = tasks;
+      this.sortTasksByUrgency();
     });
   }
+
+  sortTasksByUrgency(): void {
+    this.tasks.sort((a, b) => new Date(a.term).getTime() - new Date(b.term).getTime());
+  }
+
 
   loadTasks() {
     const userId = this.authService.getId() || '';
@@ -94,6 +100,7 @@ export class TaskPageComponent {
   }
 
   onDelete(taskId:number) {
+
     this.taskService.delete(taskId, this.authService.getToken() || '').subscribe({
       next: () => {
         this.responseSnackBar.show("Task deleted", "success")
@@ -119,6 +126,15 @@ export class TaskPageComponent {
     finishDate.setHours(finishDate.getHours()-3);
     task.finishDate = finishDate.toISOString();
     task.user_id = parseInt(this.authService.getId() || '');
+
+    let last = new Date(task.term);
+    this.tasks.forEach(t => {
+      if(last.getTime() < new Date(t.term).getTime()){
+        last = new Date(t.term);
+      }
+    });
+    task.term = last.toISOString();
+
     this.taskService.edit(task, this.authService.getToken() || '').subscribe();
   }
 }

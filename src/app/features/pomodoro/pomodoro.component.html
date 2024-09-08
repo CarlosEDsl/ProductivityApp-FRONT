@@ -1,0 +1,30 @@
+<section class="pomodoro">
+  <div class="pomodoro-container">
+    <h1>Pomodoro</h1>
+    <section class="pomodoro-buttons">
+      <button class="work" (click)="work()">Work</button>
+      <section class="controls">
+        <button *ngIf="!isPlaying" (click)="play()" class="play">
+          <mat-icon class="mat-18">play_arrow</mat-icon>
+        </button>
+        <button *ngIf="isPlaying" (click)="play()" class="pause">
+          <mat-icon class="mat-18">pause</mat-icon>
+        </button>
+        <button class="return" (click)="resetTimer()">
+          <mat-icon class="mat-18">replay</mat-icon>
+        </button>
+      </section>
+      <button class="break" (click)="break()">Break</button>
+    </section>
+    <section class="pomodoro-timer">
+      <div class="display">
+        <div class="time">
+          <p id="minutes">{{ formatTime(pomodoroService.minutes) }}</p>
+          <p>:</p>
+          <p id="seconds">{{ formatTime(pomodoroService.seconds) }}</p>
+        </div>
+      </div>
+    </section>
+    <button class="longBreak" (click)="longBreak()">Take a long break</button>
+  </div>
+</section>
