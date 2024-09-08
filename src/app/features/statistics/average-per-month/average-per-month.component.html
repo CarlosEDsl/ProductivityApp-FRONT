@@ -2,6 +2,7 @@
   <tr>
     <td>
       <ngx-charts-bar-horizontal [results]="monthHours"
+      (window:resize)="onResize($event)"
       [view]="view"
       [scheme]="colorScheme"
       [schemeType]="schemeType"
@@ -9,6 +10,8 @@
       [xAxis]="xAxis"
       [yAxis]="yAxis"
       [legend]="legend"
+      [yAxisLabel]="yAxisLabel"
+      [xAxisLabel]="xAxisLabel"
       [showXAxisLabel]="showXAxisLabel"
       [showYAxisLabel]="showYAxisLabel"
       [legendTitle]="legendTitle"

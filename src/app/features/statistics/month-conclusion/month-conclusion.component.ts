@@ -16,7 +16,13 @@ export class MonthConclusionComponent implements OnInit{
   constructor(
     private tokenService: TokenServiceService,
     private userService: UsersServiceService
-  ) {}
+  ) {
+    this.view = [innerWidth / 2, 400];
+  }
+
+  onResize(event:any) {
+    this.view = [event.target.innerWidth / 2, 400];
+}
 
   ngOnInit(): void {
     this.getStatistics().subscribe(m => {
@@ -34,7 +40,7 @@ export class MonthConclusionComponent implements OnInit{
   legendPosition: any = 'below';
   legendTitle: any = 'Month Tasks'
   colorScheme: any = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#5AA454', '#C7B42C', '#A10A28', '#AAAAAA']
   };
 
 

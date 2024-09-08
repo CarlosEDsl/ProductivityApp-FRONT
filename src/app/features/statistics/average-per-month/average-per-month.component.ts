@@ -16,30 +16,36 @@ export class AveragePerMonthComponent implements OnInit{
   constructor(
     private tokenService: TokenServiceService,
     private userService: UsersServiceService
-  ) {}
+  ) {
+    this.view = [innerWidth / 1.35, 400];
+  }
+
+  onResize(event:any) {
+    this.view = [event.target.innerWidth / 1.35, 400];
+  }
 
   monthHours: any[] = [];
 
-  view: [number, number] = [500, 300];
+  view: [number, number] = [1200, 300];
   colorScheme = 'flame';
   schemeType: any = 'linear';
   gradient: boolean = false;
   xAxis: boolean = true;
   yAxis: boolean = true;
   legendTitle: string = "Months";
-  legendTitleMulti: string = "Conclusions(%)";
   legendPosition: any = 'right';
   legend: boolean = true;
   showXAxisLabel: boolean = true;
   showYAxisLabel: boolean = true;
-  yAxisLabel: string = 'Hours';
-  xAxisLabel: string = 'Month';
+  yAxisLabel: string = 'Month';
+  xAxisLabel: string = 'Conclusions in total month tasks(%)';
   animations: boolean = true  ;
   showGridLines: boolean = true;
   showDataLabel: boolean = true;
   barPadding: number = 3
   tooltipDisabled: boolean = false;
   roundEdges: boolean = false;
+
 
   ngOnInit(): void {
     this.getStatistics().subscribe(statistics => {

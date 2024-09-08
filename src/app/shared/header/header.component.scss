@@ -63,6 +63,10 @@ mat-toolbar {
   justify-content: center;
 }
 
+.title {
+  user-select: none;
+}
+
 @media only screen and (max-width: 600px) {
 
 }
