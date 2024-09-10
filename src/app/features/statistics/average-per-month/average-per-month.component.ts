@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
 import { HoursTime } from '../../../shared/interfaces/hours-time';
 import { map, catchError, of, forkJoin } from 'rxjs';
+import { LoadingService } from '../../../shared/services/loading.service';
 @Component({
   selector: 'app-average-per-month',
   standalone: true,
@@ -15,7 +16,8 @@ export class AveragePerMonthComponent implements OnInit{
 
   constructor(
     private tokenService: TokenServiceService,
-    private userService: UsersServiceService
+    private userService: UsersServiceService,
+    private loadingService: LoadingService
   ) {
     if(innerWidth <= 900)
       this.view = [innerWidth / 1.09, 300]
@@ -51,9 +53,11 @@ export class AveragePerMonthComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.getStatistics().subscribe(statistics => {
       this.monthHours = statistics;
     });
+    this.loadingService.hide();
   }
 
 
@@ -63,6 +67,7 @@ export class AveragePerMonthComponent implements OnInit{
 
     for (let i = 1; i <= 12; i++) {
         let hoursTime: HoursTime = { month: i, year };
+
         const request = this.userService.getMonthS(
             parseInt(this.tokenService.getId() || '0'),
             hoursTime,

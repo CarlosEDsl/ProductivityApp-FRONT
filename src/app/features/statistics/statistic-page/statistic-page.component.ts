@@ -22,7 +22,7 @@ export class StatisticPageComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
-    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+    this.screenWidth = window.innerWidth;
   }
 
 }

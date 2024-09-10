@@ -15,8 +15,8 @@
   </button>
 
   <div *ngIf="authService.getToken() !== null; else notLogged" class="login-options">
-    <span *ngIf="screenWidth >= 740 && authService.isUserLogged()">Hello, {{username}}</span>
-    <span *ngIf="screenWidth <= 740 && authService.isUserLogged()">Hi, {{username}}</span>
+    <span *ngIf="screenWidth >= 740 && (username | async) as user">Hello, {{ user }}</span>
+    <span *ngIf="screenWidth <= 740 && (username | async) as user">Hi, {{ user }}</span>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
       <mat-icon>more_vert</mat-icon>
     </button>

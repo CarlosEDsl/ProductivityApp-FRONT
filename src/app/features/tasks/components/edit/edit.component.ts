@@ -1,3 +1,4 @@
+import { LoadingService } from './../../../../shared/services/loading.service';
 import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild, Renderer2, ViewEncapsulation, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from '../../../../shared/services/task.service';
@@ -47,7 +48,7 @@ export class EditComponent {
   @ViewChild(MatDatepicker) datePicker!: MatDatepicker<any>;
   @ViewChild(NgxMaterialTimepickerComponent) timePicker!: NgxMaterialTimepickerComponent;
 
-  constructor(private renderer:Renderer2, @Inject(MAT_DIALOG_DATA) public data: Task) {}
+  constructor(private renderer:Renderer2, @Inject(MAT_DIALOG_DATA) public data: Task, private loadingService:LoadingService) {}
 
 
 
@@ -128,12 +129,15 @@ export class EditComponent {
         throw new Error("Id not found");
       }
       if(new Date(updatedTask.term).getTime()+10800000 > Date.now()){
+        this.loadingService.show();
         this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
+            this.loadingService.hide();
             this.responseBar.show("Task successful edited ", 'success');
             this.createDialog.closeAll();
           },
           error: (error) => {
+            this.loadingService.hide();
             this.responseBar.show("Error in task edited", 'error');
           }
         });

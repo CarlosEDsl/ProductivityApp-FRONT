@@ -1,3 +1,4 @@
+import { LoadingService } from './../../../shared/services/loading.service';
 import { Component, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
@@ -15,7 +16,8 @@ export class MonthConclusionComponent implements OnInit{
 
   constructor(
     private tokenService: TokenServiceService,
-    private userService: UsersServiceService
+    private userService: UsersServiceService,
+    private loadingService:LoadingService
   ) {
     if(innerWidth <= 900)
       this.view = [innerWidth / 1.2, 400]
@@ -28,9 +30,11 @@ export class MonthConclusionComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.getStatistics().subscribe(m => {
       this.tasks = m;
     });
+    this.loadingService.hide();
   }
 
   tasks: any[] = [];

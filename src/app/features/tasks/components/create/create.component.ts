@@ -1,3 +1,4 @@
+import { LoadingService } from './../../../../shared/services/loading.service';
 import { Component, inject, ChangeDetectionStrategy, ElementRef, ViewChild, Renderer2, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TaskService } from '../../../../shared/services/task.service';
@@ -47,7 +48,7 @@ export class CreateComponent {
   @ViewChild(MatDatepicker) datePicker!: MatDatepicker<any>;
   @ViewChild(NgxMaterialTimepickerComponent) timePicker!: NgxMaterialTimepickerComponent;
 
-  constructor(private renderer:Renderer2) {}
+  constructor(private renderer:Renderer2, private loadingService:LoadingService) {}
 
 
 
@@ -105,12 +106,15 @@ export class CreateComponent {
         throw new Error("Id not found");
       }
       if(new Date(newTask.term).getTime()+10800000 > Date.now()){
+        this.loadingService.show();
         this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
+            this.loadingService.hide();
             this.responseBar.show("Task successful created", 'success');
             this.createDialog.closeAll();
           },
           error: (error) => {
+            this.loadingService.hide();
             this.responseBar.show("Error in task creation", 'error');
           }
         });

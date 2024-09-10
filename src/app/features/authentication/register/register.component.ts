@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
 import { Router } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +27,7 @@ export class RegisterComponent {
   @Input() user: User | null = null;
   form!: FormGroup;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private loadingService:LoadingService) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -83,16 +84,21 @@ export class RegisterComponent {
           cell: userFormRes.cell
         }
 
+        this.loadingService.show();
         this.userService.post(user).subscribe({
           next: () => {
             this.snackbarService.show("User created", 'success');
             this.router.navigateByUrl("/").catch(() => console.error("Route error"));
           },
           error: (error) => {
-            if(error.status == 409)
+            if(error.status == 409){
+              this.loadingService.hide();
               this.snackbarService.show("Email already in use", 'error');
-            else
+            }
+            else{
+              this.loadingService.hide();
               this.snackbarService.show("Server error", 'error');
+            }
           }
         });
       }

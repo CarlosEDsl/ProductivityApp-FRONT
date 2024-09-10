@@ -5,6 +5,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TokenServiceService } from '../../../shared/services/token-service.service';
 import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-hours-per-month',
@@ -33,7 +34,7 @@ export class HoursPerMonthComponent implements OnInit {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
 
-  constructor(private userService: UsersServiceService, private authService: TokenServiceService)
+  constructor(private userService: UsersServiceService, private authService: TokenServiceService, private loadingService:LoadingService)
   {
     if(innerWidth <= 900)
       this.view = [innerWidth / 1, 300]
@@ -47,9 +48,11 @@ export class HoursPerMonthComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.getAllUserMonths().subscribe((m) => {
       this.monthHours = m;
     });
+    this.loadingService.hide();
   }
 
   getAllUserMonths() {

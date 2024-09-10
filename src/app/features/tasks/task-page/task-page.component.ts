@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription, catchError } from 'rxjs';
 import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
 import { EditComponent } from '../components/edit/edit.component';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-task-page',
@@ -35,14 +36,16 @@ export class TaskPageComponent {
   private tasksSubscription!: Subscription;
   public screenWidth: number = 0;
 
-  constructor(public creationDialog: MatDialog) {
+  constructor(public creationDialog: MatDialog, private loadingService: LoadingService) {
 
   }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
     this.loadTasks();
+    this.loadingService.show();
     this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
+      this.loadingService.hide();
       this.tasks = tasks;
       this.sortTasksByUrgency();
     });
