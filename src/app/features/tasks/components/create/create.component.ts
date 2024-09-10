@@ -105,7 +105,7 @@ export class CreateComponent {
       if (newTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(newTask.term).getTime()+10800000 > Date.now()){
+      if(new Date(newTask.term).getTime()+10800000 > Date.now() && newTask.description?.length || 0 <= 250){
         this.loadingService.show();
         this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
           next: (response) => {

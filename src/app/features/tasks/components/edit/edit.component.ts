@@ -128,7 +128,7 @@ export class EditComponent {
       if (updatedTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(updatedTask.term).getTime()+10800000 > Date.now()){
+      if(new Date(updatedTask.term).getTime()+10800000 > Date.now() && updatedTask.description?.length || 0 <= 250){
         this.loadingService.show();
         this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {

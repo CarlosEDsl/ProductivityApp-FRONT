@@ -87,6 +87,7 @@ export class RegisterComponent {
         this.loadingService.show();
         this.userService.post(user).subscribe({
           next: () => {
+            this.loadingService.hide();
             this.snackbarService.show("User created", 'success');
             this.router.navigateByUrl("/").catch(() => console.error("Route error"));
           },

@@ -12,3 +12,11 @@ button > mat-icon {
 .completed {
   background-color: rgb(202, 224, 170);
 }
+
+.text-container {
+  max-height: 100px;
+  overflow-y: auto;
+  display: block;
+  padding: 8px;
+  overflow-wrap: break-word;
+}

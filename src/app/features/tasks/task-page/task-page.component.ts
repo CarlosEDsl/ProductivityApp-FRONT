@@ -53,6 +53,19 @@ export class TaskPageComponent {
 
   sortTasksByUrgency(): void {
     this.tasks.sort((a, b) => new Date(a.term).getTime() - new Date(b.term).getTime());
+
+    let tasksFinished: Task[] = [];
+    this.tasks = this.tasks.filter(task => {
+      if (task.finishDate) {
+        tasksFinished.push(task);
+        return false;
+      }
+      return true;
+    });
+
+    tasksFinished.sort((a, b) => new Date(b.finishDate!).getTime() - new Date(a.finishDate!).getTime());
+
+    this.tasks.push(...tasksFinished);
   }
 
 
@@ -129,14 +142,6 @@ export class TaskPageComponent {
     finishDate.setHours(finishDate.getHours()-3);
     task.finishDate = finishDate.toISOString();
     task.user_id = parseInt(this.authService.getId() || '');
-
-    let last = new Date(task.term);
-    this.tasks.forEach(t => {
-      if(last.getTime() < new Date(t.term).getTime()){
-        last = new Date(t.term);
-      }
-    });
-    task.term = last.toISOString();
 
     this.taskService.edit(task, this.authService.getToken() || '').subscribe();
   }

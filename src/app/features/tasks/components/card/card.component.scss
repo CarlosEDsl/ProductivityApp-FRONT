@@ -30,6 +30,14 @@ mat-card-actions {
   margin-right: 5px;
 }
 
+.text-container {
+  max-height: 100px;
+  overflow-y: auto;
+  display: block;
+  padding: 8px;
+  overflow-wrap: break-word;
+}
+
 @keyframes join {
   from {
     right: -100%;

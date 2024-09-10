@@ -23,7 +23,7 @@ export class HeaderComponent implements OnDestroy {
   userService = inject(UsersServiceService);
   router = inject(Router);
   username!: Observable<String>;
-  userId: string | null = this.authService.getId();
+  userId: string|null = this.authService.getId();
 
   public screenWidth: number = 0;
   private userSubscription: Subscription;
@@ -41,6 +41,7 @@ export class HeaderComponent implements OnDestroy {
   @Output() toggleNav = new EventEmitter<void>();
 
   constructor(public settingsDialog: MatDialog) {
+
     this.userSubscription = this.userService.get(this.userId ?? '', this.authService.getToken() ?? '').pipe(
       catchError(error => {
         console.error('Erro ao buscar usuário:', error);
@@ -48,7 +49,7 @@ export class HeaderComponent implements OnDestroy {
         return of(null);
       }),
       tap(user => {
-        this.username = of(user!.name);
+          this.username = of(user!.name);
       })
     ).subscribe();
   }

@@ -67,6 +67,14 @@ mat-toolbar {
   user-select: none;
 }
 
+.username_mobile {
+  display: inline-block;    /* Define o contêiner como inline-block para truncamento */
+  max-width: 100px;         /* Define o tamanho máximo do contêiner, ajuste conforme necessário */
+  white-space: nowrap;      /* Não permite que o texto quebre para a próxima linha */
+  overflow: hidden;         /* Esconde o texto que exceder o tamanho do contêiner */
+  text-overflow: ellipsis;  /* Adiciona reticências ao final do texto quando ele é truncado */
+}
+
 @media only screen and (max-width: 600px) {
 
 }

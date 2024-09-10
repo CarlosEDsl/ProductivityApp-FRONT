@@ -98,6 +98,15 @@ h1 {
   height: 3rem;
 }
 
+.description {
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+}
+.description > h1, .description>p {
+  color: rgb(163, 163, 163);
+}
+
 
 
 
