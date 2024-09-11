@@ -1,9 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningDialogComponent } from './shared/warning-dialog/warning-dialog.component';
+import { TokenServiceService } from './shared/services/token-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +15,11 @@ import { LoadingComponent } from './shared/loading/loading.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ProductivityAPP-View';
   isSideBarCompacted = false;
   timeoutId:any;
+
   sideBarOFF = {
     'display': 'none'
   };
@@ -42,6 +46,13 @@ export class AppComponent {
         'display': 'block'
       };
     }
+  }
+
+  constructor(private warningDialog:MatDialog, private authService:TokenServiceService) {}
+
+  ngOnInit() {
+    if(this.authService.getId() == null)
+      this.warningDialog.open(WarningDialogComponent)
   }
 }
 

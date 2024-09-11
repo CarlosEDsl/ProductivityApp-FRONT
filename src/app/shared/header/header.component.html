@@ -27,9 +27,13 @@
   </div>
 
   <ng-template #notLogged>
-    <div class="login-options">
+    <div class="login-options" *ngIf="authService.getToken() !== null">
       <button mat-button [routerLink]="'/login'">Login</button>
       <button mat-button [routerLink]="'/create-account'">Create Account</button>
+    </div>
+    <div class="login-options" *ngIf="authService.getToken() == null">
+      <button mat-button [routerLink]="'/login'"><mat-icon class="mat-18">login</mat-icon></button>
+      <button mat-button [routerLink]="'/create-account'"><mat-icon>person_add</mat-icon></button>
     </div>
   </ng-template>
 
