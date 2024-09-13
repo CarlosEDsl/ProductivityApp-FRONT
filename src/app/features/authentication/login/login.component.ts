@@ -10,6 +10,7 @@ import { UsersServiceService } from '../../../shared/services/users-service.serv
 import { TokenServiceService } from '../../../shared/services/token-service.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent{
   snackBar = inject(SnackbarService);
   @Input() user: UserLogin | null = null;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private loadingService:LoadingService) {}
 
   ngAfterViewInit(): void {
     if (this.loginForm) {
@@ -60,6 +61,7 @@ export class LoginComponent{
         email: formValues.email,
         password: formValues.password
       };
+      this.loadingService.show();
       this.userService.login(user).subscribe({
         next: () => {
           this.snackBar.show("Logado com sucesso", 'success');
@@ -69,6 +71,7 @@ export class LoginComponent{
           this.snackBar.show("Dados não encontrados.", 'error');
         }
       })
+      this.loadingService.hide();
     }
   }
 

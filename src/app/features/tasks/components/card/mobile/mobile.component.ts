@@ -3,11 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Task } from '../../../../../shared/interfaces/task';
 import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mobile-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './mobile.component.html',
   styleUrl: './mobile.component.scss'
 })
@@ -16,19 +17,27 @@ export class MobileCardComponent {
   task = input.required<Task>();
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
+  @Output() finish = new EventEmitter();
 
 
+  taskU = computed(() => this.task())
+  taskId = computed(() => this.task().id);
   taskName = computed(() => this.task().name);
   taskDesc = computed(() => this.task().description);
   taskTerm = computed(() => this.task().term);
   taskCreated = computed(() => this.task().inputDate);
+  taskFinish = computed(() => this.task().finishDate);
 
-  onEdit() {
-    this.edit.emit();
+  onEdit(task:Task) {
+    this.edit.emit(task);
   }
 
-  onDelete() {
-    this.delete.emit();
+  onDelete(taskId:number | undefined) {
+    this.delete.emit(taskId);
+  }
+
+  onFinish(task:Task) {
+    this.finish.emit(task);
   }
 
   getTermFormatted(taskTerm: string): string {
@@ -50,6 +59,28 @@ export class MobileCardComponent {
     const formattedSeconds = String(seconds).padStart(2, '0');
 
     return `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  getFinishDateFormatted(date: string): string {
+    let parsedDate = new Date(date);
+    parsedDate.setHours(parsedDate.getHours()-3);
+
+    if (isNaN(parsedDate.getTime())) {
+      return 'Invalid Date';
+    }
+
+    const formattedDate = parsedDate.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: 'UTC'
+    });
+
+    return formattedDate;
   }
 }
 

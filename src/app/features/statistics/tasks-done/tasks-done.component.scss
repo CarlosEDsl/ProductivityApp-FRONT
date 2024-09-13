@@ -1,0 +1,21 @@
+#circle {
+  border: solid, 10px, rgb(166, 165, 165);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  user-select: none;
+}
+
+#taskCount {
+  font-size: 1000%;
+  color: rgb(58, 58, 58);
+}
+
+p{
+  margin-top: 10px;
+  font-size: 200%;
+}
+

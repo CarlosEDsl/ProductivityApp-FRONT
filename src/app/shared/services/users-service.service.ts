@@ -1,11 +1,12 @@
 import { UserLogin } from './../interfaces/user-login';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { HoursTime } from '../interfaces/hours-time';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenServiceService } from './token-service.service';
-import { LoginResponse } from '../interfaces/login-response';
+import { MonthStatics } from '../interfaces/month-statistic';
+import { AddHours } from '../interfaces/add-hours';
 
 @Injectable({
   providedIn: 'root'
@@ -45,13 +46,31 @@ export class UsersServiceService {
     return this.httpClient.delete(`${this.ApiURL}/user/${id}`);
   }
 
-  patch(id: number, statsHour: HoursTime) {
-    return this.httpClient.patch<HoursTime>(`${this.ApiURL}/user/${id}`, statsHour);
+  patch(id: number, statsHour: AddHours, auth:string) {
+    return this.httpClient.patch(`${this.ApiURL}/user/${id}`, statsHour, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      })
+    });
   }
 
-  getMonthS(id: number, statsHour: HoursTime, auth: string) {
-    return this.httpClient.request<HoursTime>('GET', `${this.ApiURL}/statistic/${id}`, {
-      body: statsHour,
+  getMonthS(userId: number, statsHour: HoursTime, auth: string) {
+    const params = new HttpParams()
+      .set('month', statsHour.month.toString())
+      .set('year', statsHour.year.toString());
+
+    return this.httpClient.get<MonthStatics>(`${this.ApiURL}/user/statistic/${userId}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      }),
+      params: params
+    });
+  }
+
+  getCurrentMonth(userId: number, auth: string) {
+    return this.httpClient.get<any>(`${this.ApiURL}/user/nowStatistic/${userId}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': auth
@@ -77,4 +96,5 @@ export class UsersServiceService {
       })
     );
   }
+
 }

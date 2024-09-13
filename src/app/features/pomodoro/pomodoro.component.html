@@ -1,0 +1,44 @@
+<section class="pomodoro">
+  <div class="pomodoro-container">
+    <h1>Pomodoro</h1>
+    <section class="pomodoro-buttons">
+      <button class="work" (click)="work()">Work</button>
+      <section class="controls">
+        <button *ngIf="!isPlaying" (click)="play()" class="play">
+          <mat-icon class="mat-18">play_arrow</mat-icon>
+        </button>
+        <button *ngIf="isPlaying" (click)="play()" class="pause">
+          <mat-icon class="mat-18">pause</mat-icon>
+        </button>
+        <button class="return" (click)="resetTimer()">
+          <mat-icon class="mat-18">replay</mat-icon>
+        </button>
+      </section>
+      <button class="break" (click)="break()">Break</button>
+    </section>
+    <section class="pomodoro-timer">
+      <div class="display">
+        <div class="time">
+          <p id="minutes">{{ formatTime(pomodoroService.minutes) }}</p>
+          <p>:</p>
+          <p id="seconds">{{ formatTime(pomodoroService.seconds) }}</p>
+        </div>
+      </div>
+    </section>
+    <button class="longBreak" (click)="longBreak()">Take a long break</button>
+  </div>
+</section>
+
+<section class="description">
+  <h1>What is "Pomodoro"</h1>
+  <p>The Pomodoro Technique is a time management method designed to improve productivity and focus. It involves breaking work into intervals, traditionally 25 minutes long, known as "Pomodoros," separated by short breaks. Here’s how it typically works:
+
+    Work Intervals: Focus on a single task for 25 minutes. This is known as a "Pomodoro." During this time, avoid all distractions to maintain productivity.
+
+    Short Breaks: After completing a Pomodoro, take a short break of 5 minutes. This helps to relax and recharge before the next work interval.
+
+    Long Breaks: After completing four Pomodoros, take a longer break of 15 minutes. This extended rest helps to refresh your mind and body, making it easier to maintain focus over extended periods.
+
+    This technique encourages sustained focus by balancing work with regular breaks, which can help prevent burnout and increase overall productivity.
+    </p>
+</section>

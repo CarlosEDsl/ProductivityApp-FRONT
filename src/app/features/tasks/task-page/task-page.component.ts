@@ -14,6 +14,10 @@ import { CreateComponent } from '../components/create/create.component';
 import { MobileCardComponent } from '../components/card/mobile/mobile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription, catchError } from 'rxjs';
+import { SnackbarService } from '../../../shared/snack-bar/snack-bar.service';
+import { EditComponent } from '../components/edit/edit.component';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-task-page',
@@ -24,27 +28,60 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './task-page.component.scss'
 })
 export class TaskPageComponent {
+
+  responseSnackBar = inject(SnackbarService);
   tasks: Task[] = inject(ActivatedRoute).snapshot.data['tasks'];
   taskService = inject(TaskService);
   authService:TokenServiceService = inject(TokenServiceService);
-
+  private tasksSubscription!: Subscription;
   public screenWidth: number = 0;
 
-  constructor(public creationDialog: MatDialog) {
+  constructor(public creationDialog: MatDialog, private loadingService: LoadingService) {
 
   }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.loadTasks();
+    this.loadingService.show();
+    this.tasksSubscription = this.taskService.tasks$.subscribe(tasks => {
+      this.loadingService.hide();
+      this.tasks = tasks;
+      this.sortTasksByUrgency();
+    });
+  }
+
+  sortTasksByUrgency(): void {
+    this.tasks.sort((a, b) => new Date(a.term).getTime() - new Date(b.term).getTime());
+
+    let tasksFinished: Task[] = [];
+    this.tasks = this.tasks.filter(task => {
+      if (task.finishDate) {
+        tasksFinished.push(task);
+        return false;
+      }
+      return true;
+    });
+
+    tasksFinished.sort((a, b) => new Date(b.finishDate!).getTime() - new Date(a.finishDate!).getTime());
+
+    this.tasks.push(...tasksFinished);
+  }
+
+
+  loadTasks() {
+    const userId = this.authService.getId() || '';
+    const token = this.authService.getToken() || '';
+    this.taskService.loadTasks(userId, token);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
-    this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
+    this.screenWidth = window.innerWidth;
   }
 
   trackByTaskTerm(index: number, task: Task): string {
-    return task.term.toString();
+    return task.term;
   }
 
   //Paginator
@@ -76,5 +113,36 @@ export class TaskPageComponent {
       width: '90%',
       height: '80%'
     })
+  }
+
+  onDelete(taskId:number) {
+
+    this.taskService.delete(taskId, this.authService.getToken() || '').subscribe({
+      next: () => {
+        this.responseSnackBar.show("Task deleted", "success")
+      },
+      error: () => {
+        this.responseSnackBar.show("Error on task delete", "error")
+      }
+    });
+    this.length = this.length-1;
+  }
+
+  onEdit(task:Task) {
+    this.creationDialog.open(EditComponent, {
+      width: '90%',
+      height: '80%',
+      data: task
+    })
+  }
+
+  onFinish(task:Task) {
+
+    let finishDate = new Date();
+    finishDate.setHours(finishDate.getHours()-3);
+    task.finishDate = finishDate.toISOString();
+    task.user_id = parseInt(this.authService.getId() || '');
+
+    this.taskService.edit(task, this.authService.getToken() || '').subscribe();
   }
 }

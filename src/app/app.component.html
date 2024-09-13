@@ -2,6 +2,7 @@
 <div class="container">
   <app-side-bar [isSideBarCompacted] = "isSideBarCompacted" (isSideBarChange) = "onSideBarClose(false)" [ngStyle]="sideBarOFF"></app-side-bar>
   <div class="content-container">
+    <app-loading></app-loading>
     <router-outlet></router-outlet>
   </div>
 </div>

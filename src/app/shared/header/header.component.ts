@@ -9,7 +9,7 @@ import { UsersServiceService } from '../services/users-service.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { SettingsComponent } from '../settings/settings.component';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, of, Subscription } from 'rxjs';
+import { catchError, Observable, of, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -22,10 +22,11 @@ export class HeaderComponent implements OnDestroy {
   authService = inject(TokenServiceService);
   userService = inject(UsersServiceService);
   router = inject(Router);
-  username: string = '...';
-  userId: string | null = this.authService.getId();
+  username!: Observable<String>;
+  userId: string|null = this.authService.getId();
 
   public screenWidth: number = 0;
+  private userSubscription: Subscription;
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
@@ -36,19 +37,21 @@ export class HeaderComponent implements OnDestroy {
     this.screenWidth = window.innerWidth;  // Atualiza a largura quando a tela é redimensionada
   }
 
-  private userSubscription: Subscription;
 
   @Output() toggleNav = new EventEmitter<void>();
 
   constructor(public settingsDialog: MatDialog) {
+
     this.userSubscription = this.userService.get(this.userId ?? '', this.authService.getToken() ?? '').pipe(
       catchError(error => {
+        console.error('Erro ao buscar usuário:', error);
         this.authService.clearToken();
         return of(null);
+      }),
+      tap(user => {
+          this.username = of(user!.name);
       })
-    ).subscribe(user => {
-      this.username = user?.name ?? '...';
-    });
+    ).subscribe();
   }
 
   ngOnDestroy(): void {

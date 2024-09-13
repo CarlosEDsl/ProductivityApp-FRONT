@@ -1,22 +1,24 @@
-<mat-card>
+<mat-card [ngClass]="{'completed': taskFinish()}" class="card">
     <div class="task-card-container">
         <mat-card-header>
             <mat-card-title> {{ taskName() }} </mat-card-title>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content class="text-container">
             {{ taskDesc() }}
         </mat-card-content>
         <mat-card-actions align="end">
           <div class="modifier-buttons">
-            <button mat-stroked-button color="warn">Delete</button>
-            <button mat-stroked-button>Edit</button>
+            <button mat-stroked-button color="warn" (click)="onDelete(taskId())">Delete</button>
+            <button mat-stroked-button (click)="onEdit(taskU())">Edit</button>
           </div>
-          <button mat-flat-button>Finish</button>
+          <button mat-flat-button (click)="onFinish(taskU())">Finish</button>
         </mat-card-actions>
-        <mat-card-footer>
+        <mat-card-footer *ngIf="!taskFinish()">
           <p>term in: {{ getTermFormatted(taskTerm()) }}</p>
           <p>created: {{ taskCreated() }}</p>
         </mat-card-footer>
-
-      </div>
+        <mat-card-footer *ngIf="taskFinish()">
+          <p>finished: {{ getFinishDateFormatted(taskFinish() || '') }}</p>
+        </mat-card-footer>
+    </div>
 </mat-card>

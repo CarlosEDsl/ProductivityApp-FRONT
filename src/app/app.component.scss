@@ -1,6 +1,7 @@
 .container {
   position: relative;
-  height: 100%;;
+  height: auto;
+  min-height: 100%;
 }
 
 app-side-bar {
@@ -13,4 +14,11 @@ app-side-bar {
 .content-container {
   z-index: 1;
   text-align: center;
+}
+.timepicker-backdrop-overlay {
+  z-index: 9999;
+}
+
+.timepicker-overlay{
+  z-index: 9999;
 }
