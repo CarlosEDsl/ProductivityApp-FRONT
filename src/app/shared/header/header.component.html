@@ -16,7 +16,7 @@
 
   <div *ngIf="authService.getToken() !== null; else notLogged" class="login-options">
     <span *ngIf="screenWidth >= 740 && (username | async) as user" class="username">Hello, {{ user }}</span>
-    <span *ngIf="screenWidth <= 740 && (username | async) as user" class="username_mobile">Hi, {{ user }}</span>
+    <span *ngIf="screenWidth < 740 && (username | async) as user" class="username_mobile">Hi, {{ user }}</span>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -27,11 +27,11 @@
   </div>
 
   <ng-template #notLogged>
-    <div class="login-options" *ngIf="authService.getToken() !== null">
+    <div class="login-options" *ngIf="screenWidth >= 780">
       <button mat-button [routerLink]="'/login'">Login</button>
       <button mat-button [routerLink]="'/create-account'">Create Account</button>
     </div>
-    <div class="login-options" *ngIf="authService.getToken() == null">
+    <div class="login-options" *ngIf="screenWidth < 780">
       <button mat-button [routerLink]="'/login'"><mat-icon class="mat-18">login</mat-icon></button>
       <button mat-button [routerLink]="'/create-account'"><mat-icon>person_add</mat-icon></button>
     </div>
