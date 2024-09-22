@@ -1,0 +1,30 @@
+.welcome, .todolist, .pomodoro, .statistic {
+  width: 60%;
+}
+
+.home p, .home ul > li {
+  text-align: left;
+}
+
+.home {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: 'Ubuntu';
+}
+
+.welcome_img, .pomodoro_img {
+  float: left;
+  width: 200px;
+  margin: 0 15px 15px 0;
+}
+
+.todolist_img, .statistic_img {
+  float: right;
+  width: 200px;
+  margin: 0 15px 15px 0;
+  padding-left: 20px;
+}

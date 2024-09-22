@@ -5,8 +5,13 @@ import { RegisterComponent } from './features/authentication/register/register.c
 import { getTasksResolver } from './shared/resolvers/get-tasks.resolver';
 import { StatisticPageComponent } from './features/statistics/statistic-page/statistic-page.component';
 import { PomodoroComponent } from './features/pomodoro/pomodoro.component';
+import { HomeComponent } from './shared/home/home.component';
 
 export const routes: Routes = [
+  {
+    path:'',
+    component: HomeComponent
+  },
   {
     path: 'my-tasks',
     resolve: {
