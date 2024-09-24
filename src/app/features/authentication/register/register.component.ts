@@ -1,3 +1,4 @@
+import { UserLogin } from './../../../shared/interfaces/user-login';
 import { User } from './../../../shared/interfaces/user';
 import { Component, ElementRef, inject, Renderer2, ViewChild, Input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -89,6 +90,11 @@ export class RegisterComponent {
           next: () => {
             this.loadingService.hide();
             this.snackbarService.show("User created", 'success');
+            const login:UserLogin = {
+              email: user?.email || '',
+              password: user?.password || ''
+            }
+            this.userService.login(login).subscribe();
             this.router.navigateByUrl("/").catch(() => console.error("Route error"));
           },
           error: (error) => {
