@@ -23,14 +23,14 @@
         <mat-card-footer>
           <mat-form-field>
             <mat-label>Term</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="termDate">
+            <input matInput [matDatepicker]="picker" formControlName="termDate" class="pickers">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Term time</mat-label>
-            <input matInput [ngxTimepicker]="timePicker" formControlName="termTime">
+            <input matInput [ngxTimepicker]="timePicker" formControlName="termTime" class="pickers">
             <ngx-material-timepicker #timePicker class="custom-timepicker"></ngx-material-timepicker>
           </mat-form-field>
         </mat-card-footer>

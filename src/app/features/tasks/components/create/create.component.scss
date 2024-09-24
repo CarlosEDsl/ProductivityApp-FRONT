@@ -101,4 +101,13 @@ textarea:focus {
   z-index: 1100 !important; /* Aumente o z-index para garantir que fique acima do MatDialog */
 }
 
+@media only screen and (max-width: 750px) {
+  .pickers {
+    width: 150px;
+  }
+
+  mat-card-footer {
+    margin: 5px;
+  }
+}
 
