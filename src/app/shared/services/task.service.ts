@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TaskService {
 
-  private APIUrl = 'https://productivityapp-api.onrender.com';
+  private APIUrl = 'https://productivityapp-api-production.up.railway.app';
   private http:HttpClient;
 
   private tasksSource = new BehaviorSubject<any[]>([]);

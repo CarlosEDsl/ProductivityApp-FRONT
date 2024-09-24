@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MonthStatisticsService {
 
-  private APIUrl = 'https://productivityapp-api.onrender.com';
+  private APIUrl = 'https://productivityapp-api-production.up.railway.app';
   private http:HttpClient;
 
   constructor(http:HttpClient) {

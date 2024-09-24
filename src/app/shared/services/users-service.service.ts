@@ -15,7 +15,7 @@ export class UsersServiceService {
 
   tokenService = inject(TokenServiceService);
 
-  private ApiURL = `https://productivityapp-api.onrender.com`;
+  private ApiURL = `https://productivityapp-api-production.up.railway.app`;
 
   private httpClient = inject(HttpClient);
 
