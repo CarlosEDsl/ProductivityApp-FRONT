@@ -15,7 +15,7 @@ export class UsersServiceService {
 
   tokenService = inject(TokenServiceService);
 
-  private ApiURL = `/api`;
+  private ApiURL = `https://productivityapp-api.onrender.com`;
 
   private httpClient = inject(HttpClient);
 
