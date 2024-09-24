@@ -15,7 +15,7 @@ export class UsersServiceService {
 
   tokenService = inject(TokenServiceService);
 
-  private ApiURL = 'http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080';
+  private ApiURL = `/api`;
 
   private httpClient = inject(HttpClient);
 
