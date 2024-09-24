@@ -107,6 +107,7 @@ export class RegisterComponent {
               this.snackbarService.show("Server error", 'error');
             }
           }
+
         });
       }
     }
