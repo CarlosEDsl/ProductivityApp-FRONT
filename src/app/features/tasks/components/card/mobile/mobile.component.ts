@@ -41,7 +41,7 @@ export class MobileCardComponent {
   }
 
   getTermFormatted(taskTerm: string): string {
-    const term = new Date(taskTerm);
+    const term = new Date(taskTerm+'z');
     const now = new Date();
 
     // Tempo restante em segundos
@@ -62,8 +62,8 @@ export class MobileCardComponent {
   }
 
   getFinishDateFormatted(date: string): string {
-    let parsedDate = new Date(date);
-    parsedDate.setHours(parsedDate.getHours()-3);
+    let parsedDate = new Date(date+'z');
+    parsedDate.setHours(parsedDate.getHours(), parsedDate.getMinutes());
 
     if (isNaN(parsedDate.getTime())) {
       return 'Invalid Date';
@@ -76,8 +76,7 @@ export class MobileCardComponent {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false,
-      timeZone: 'UTC'
+      hour12: false
     });
 
     return formattedDate;

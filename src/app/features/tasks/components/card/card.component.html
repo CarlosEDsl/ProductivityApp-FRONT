@@ -15,7 +15,7 @@
         </mat-card-actions>
         <mat-card-footer *ngIf="!taskFinish()">
           <p>term in: {{ getTermFormatted(taskTerm()) }}</p>
-          <p>created: {{ taskCreated() }}</p>
+          <p>created: {{ getFinishDateFormatted(taskCreated() || '')}}</p>
         </mat-card-footer>
         <mat-card-footer *ngIf="taskFinish()">
           <p>finished: {{ getFinishDateFormatted(taskFinish() || '') }}</p>

@@ -61,8 +61,8 @@ export class CardComponent {
   }
 
   getFinishDateFormatted(date: string): string {
-    let parsedDate = new Date(date);
-    parsedDate.setHours(parsedDate.getHours());
+    let parsedDate = new Date(date+'z');
+    parsedDate.setHours(parsedDate.getHours(), parsedDate.getMinutes());
 
     if (isNaN(parsedDate.getTime())) {
       return 'Invalid Date';
@@ -75,8 +75,7 @@ export class CardComponent {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false,
-      timeZone: 'UTC'
+      hour12: false
     });
 
     return formattedDate;

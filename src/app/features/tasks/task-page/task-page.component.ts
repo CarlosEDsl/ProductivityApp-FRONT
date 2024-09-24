@@ -139,7 +139,7 @@ export class TaskPageComponent {
   onFinish(task:Task) {
 
     let finishDate = new Date();
-    finishDate.setHours(finishDate.getHours()-3);
+    finishDate.setHours(finishDate.getHours());
     task.finishDate = finishDate.toISOString();
     task.user_id = parseInt(this.authService.getId() || '');
 
