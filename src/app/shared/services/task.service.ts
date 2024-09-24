@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TaskService {
 
-  private APIUrl = '/api/* http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080';
+  private APIUrl = 'http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080';
   private http:HttpClient;
 
   private tasksSource = new BehaviorSubject<any[]>([]);
