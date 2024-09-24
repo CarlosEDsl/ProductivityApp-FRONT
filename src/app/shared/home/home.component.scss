@@ -1,5 +1,7 @@
 .welcome, .todolist, .pomodoro, .statistic {
   width: 60%;
+  margin: 200px;
+  margin-top: 0;
 }
 
 .home p, .home ul > li {
@@ -12,6 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
   font-family: 'Ubuntu';
 }
@@ -28,3 +31,14 @@
   margin: 0 15px 15px 0;
   padding-left: 20px;
 }
+
+.statistic{
+  margin-bottom: 0  ;
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(to right, transparent, #CCC, transparent);
+}
+

@@ -1,5 +1,6 @@
+import { LoadingService } from './shared/services/loading.service';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CanActivate, Router, RouterOutlet } from '@angular/router';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { CommonModule } from '@angular/common';
@@ -15,7 +16,7 @@ import { TokenServiceService } from './shared/services/token-service.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, CanActivate{
   title = 'ProductivityAPP-View';
   isSideBarCompacted = false;
   timeoutId:any;
@@ -48,11 +49,24 @@ export class AppComponent implements OnInit{
     }
   }
 
-  constructor(private warningDialog:MatDialog, private authService:TokenServiceService) {}
+  constructor(private warningDialog:MatDialog, private authService:TokenServiceService, private router: Router, private loadingService: LoadingService) {}
 
   ngOnInit() {
     if(this.authService.getId() == null)
       this.warningDialog.open(WarningDialogComponent)
   }
+
+  canActivate(): boolean {
+    if (this.authService.getToken()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+
+  isLoading = this.loadingService.loading$;
+
+
 }
 

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MonthStatisticsService {
 
-  private APIUrl = 'http://localhost:8080';
+  private APIUrl = 'http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080';
   private http:HttpClient;
 
   constructor(http:HttpClient) {
