@@ -1,1 +1,1 @@
-/api/* http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080/splat 200
+/api/* http://ec2-54-233-168-110.sa-east-1.compute.amazonaws.com:8080/:splat 200
