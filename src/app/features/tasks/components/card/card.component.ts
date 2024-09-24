@@ -40,7 +40,7 @@ export class CardComponent {
   }
 
   getTermFormatted(taskTerm: string): string {
-    const term = new Date(taskTerm);
+    const term = new Date(taskTerm+'z');
     const now = new Date();
 
     // Tempo restante em segundos

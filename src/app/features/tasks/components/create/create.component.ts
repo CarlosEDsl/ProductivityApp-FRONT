@@ -91,7 +91,7 @@ export class CreateComponent {
       const termDate = new Date(taskForm.termDate);
 
       const {hour, minute} = this.hours24Converter(taskForm.termTime);
-      termDate.setUTCHours(hour, minute);
+      termDate.setHours(hour, minute)
 
       const newTask: Task = {
         user_id: parseInt(this.authService.getId() || '0'),
@@ -105,7 +105,7 @@ export class CreateComponent {
       if (newTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(newTask.term).getTime()+10800000 > Date.now() && newTask.description?.length || 0 <= 250){
+      if(new Date(newTask.term.toString()).getTime() > Date.now() && newTask.description?.length || 0 <= 250){
         this.loadingService.show();
         this.taskService.create(newTask, this.authService.getToken() || '').subscribe({
           next: (response) => {

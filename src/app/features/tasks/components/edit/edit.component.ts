@@ -53,7 +53,9 @@ export class EditComponent {
 
 
   ngOnInit() {
-    const termDate = new Date(this.data.term);
+    const termDate = new Date(this.data.term+'z');
+    console.log(termDate)
+    console.log(this.data.term)
 
     let hours = termDate.getHours();
     let minutes = termDate.getMinutes();
@@ -113,7 +115,7 @@ export class EditComponent {
       const termDate = new Date(taskForm.termDate);
 
       const {hour, minute} = this.hours24Converter(taskForm.termTime);
-      termDate.setUTCHours(hour, minute);
+      termDate.setHours(hour, minute);
 
       const updatedTask: Task = {
         id: this.data.id,
@@ -128,7 +130,7 @@ export class EditComponent {
       if (updatedTask.user_id === 0) {
         throw new Error("Id not found");
       }
-      if(new Date(updatedTask.term).getTime()+10800000 > Date.now() && updatedTask.description?.length || 0 <= 250){
+      if(new Date(updatedTask.term).getTime() > Date.now() && updatedTask.description?.length || 0 <= 250){
         this.loadingService.show();
         this.taskService.edit(updatedTask, this.authService.getToken() || '').subscribe({
           next: (response) => {
