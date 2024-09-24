@@ -42,3 +42,16 @@ hr {
   background-image: linear-gradient(to right, transparent, #CCC, transparent);
 }
 
+@media only screen and (max-width: 750px) {
+  .welcome, .todolist, .pomodoro, .statistic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+  }
+
+  .todolist_img, .welcome_img, .pomodoro_img, .statistic_img {
+    float:none;
+  }
+}
+
